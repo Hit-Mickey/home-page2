@@ -143,9 +143,9 @@ const siteIcon = {
 
 ### 天气
 
-天气及地区获取需要 `高德开放平台` 相关 API
+天气及地区获取需要 `腾讯位置服务` 与 `高德开放平台` 相关 API
 
-- 前往 [高德开放平台控制台](https://console.amap.com/dev/index) 创建一个 `Web 服务` 类型的 `Key`，并将 `Key` 填入 `.env` 中的 `VITE_WEATHER_KEY` 中
+- 前往 [腾讯位置服务](https://lbs.qq.com/) 或 [高德开放平台控制台](https://console.amap.com/dev/index) 创建一个 `Web 服务` 类型的 `Key`，并将 `Key` 填入 `.env` 中对应参数中
 
 也可自行更换其他方式
 

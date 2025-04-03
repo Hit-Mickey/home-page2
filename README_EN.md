@@ -2,24 +2,29 @@ English | [Chinese](./README.md)
 
 > [!IMPORTANT]
 > ## 致大家
-> This project was originally just a simple homepage. However, as more and more friends discovered this project, it received a lot of undue attention. Moreover, as a work of a beginner in front-end development, its code is quite messy and of low quality. In addition, this project has also been resold by many unknown resource or download sites, causing many unsuspecting buyers to find my contact information from the source code to consult on problems or request features. But due to current personal life reasons, and I have never gained any benefits from this project, so I am unable to maintain this project. This repository will not be archived. We will actively accept PRs from all the experts, but no updates will be made for any new features or bugs. Please understand!
+> Hey! Congratulations on making it here~ This is NanoRocky's modified version based on the original author's homepage (imsyy)! The modified version adds more features but also increases performance consumption! (Mainly from word-by-word lyrics and seasonal effect rendering). It also includes security updates to enhance security. NanoRocky, as a Vue beginner, worked with his classmate Pizero to improve this project out of love, so the code might be quite messy and could contain many bugs. Feedback on bugs is welcome, and contributions from experts are highly appreciated!
 
 <p>
 <strong><h2>Homepage</h2></strong>
-Simple little homepage, had enough of the original one and made a new one
 </p>
 
-![無名の主页](https://s2.loli.net/2022/07/14/K5JigfvDoNewtuS.webp)
+![無名の主页](/screenshots/main.jpeg)
 
 >The logo font on the home page has been compressed, so if you use a font other than this logo, it will change back to the default font, Here is the [full font](https://file.4everland.app/font/Other/Pacifico-Regular.ttf)  
 
 ### Demo
 
->Due to CDN caching, you may need `Ctrl` + `F5` to force a browser cache refresh to see the latest results
+>Due to workbox caching, you may need `Ctrl` + `F5` to force a browser cache refresh to see the latest results
 
 - [無名の主页](https://www.imsyy.top)
-- [無名の主页 - Dev](https://home-imsyy.vercel.app)
-- [無名の主页 - Standby](https://home-5iw.pages.dev)
+- [酪灰の主页](https://nanorocky.top/)
+
+> If your project does not require Workbox local caching, such as when using a CDN or encountering an issue where subpath visits automatically redirect to the homepage, you can uncomment the following two lines in `vite.config.js`:
+
+```bash
+selfDestroying: true,
+injectRegister: false,
+```
 
 ### Functions
 
@@ -38,9 +43,9 @@ Simple little homepage, had enough of the original one and made a new one
 
 * **Installation** [node.js](https://nodejs.org/zh-cn/) **Environment**
 
-  > node > 16.16.0  
-  > npm > 8.15.0
-  
+  > node > 22.14.0
+  > npm > 11.1.0
+
 * Then run the `cmd` terminal with **administrator privileges** and `cd` to the project root directory
 * In the `terminal` type:
 
