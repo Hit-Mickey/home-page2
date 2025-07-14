@@ -21,7 +21,7 @@
           <el-switch v-model="musicClick" inline-prompt :active-icon="CheckSmall" :inactive-icon="CloseSmall" />
         </div>
         <div class="item">
-          <span class="text">显示季节特效（此开关刷新后生效）</span>
+          <span class="text">显示季节特效</span>
           <el-switch v-model="seasonalEffects" inline-prompt :active-icon="CheckSmall" :inactive-icon="CloseSmall" />
         </div>
         <div class="item">

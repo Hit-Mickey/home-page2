@@ -219,6 +219,37 @@ onBeforeUnmount(() => {
     }
   }
 
+  @media (max-height: 650px) {
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .container {
+      height: 650px;
+
+      .more {
+        height: 650px;
+        width: calc(100% + 6px);
+      }
+    }
+
+    .menu {
+      top: calc(650px * 0.84);
+      left: calc(360px * 0.5 - 25px);
+
+      @media (min-width: 360px) {
+        left: calc(50% - 25px);
+      }
+    }
+
+    .f-ter {
+      top: calc(650px - 46px);
+
+      @media (min-width: 360px) {
+        padding-left: 6px;
+      }
+    }
+  }
+
   @media (max-width: 360px) {
     overflow-x: auto;
     overflow: hidden;
