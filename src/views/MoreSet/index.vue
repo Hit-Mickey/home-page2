@@ -7,13 +7,13 @@
     </transition>
     <el-row>
       <el-col class="left">
-        <div class="logo text-hidden">
+        <div class="logo text-truncate-ellipsis">
           <span class="bg">{{ siteUrl[0] }}</span>
           <span class="sm">.{{ siteUrl[1] }}</span>
         </div>
         <!-- 移动端设置菜单 -->
         <div class="title">
-          <setting-two theme="filled" size="28" fill="var(--text-color)" />
+          <setting-two theme="filled" size="28" fill="var(--close-icon-color)" />
           <span class="name">全局设置</span>
         </div>
         <div class="mobileset-scrollable">
@@ -34,18 +34,18 @@
     </transition>
     <el-row :gutter="40">
       <el-col :span="12" class="left">
-        <div class="logo text-hidden">
+        <div class="logo text-truncate-ellipsis">
           <span class="bg">{{ siteUrl[0] }}</span>
           <span class="sm">.{{ siteUrl[1] }}</span>
         </div>
         <div class="version">
-          <el-tooltip content="Version" placement="top" :show-arrow="false">
+          <el-tooltip content="Version" placement="top" effect="color" :show-arrow="false">
             <div class="num" @dblclick="toggleVer">v&nbsp;{{ config.version }}</div>
           </el-tooltip>
-          <el-tooltip content="Github 源代码仓库" placement="top" :show-arrow="false">
+          <el-tooltip content="Github 源代码仓库" placement="top" effect="color" :show-arrow="false">
             <github-one class="github" theme="outline" size="24" @click="jumpTo(config.github)" />
           </el-tooltip>
-          <el-tooltip content="扩展功能更新仓库" placement="top" :show-arrow="false">
+          <el-tooltip content="扩展功能更新仓库" placement="top" effect="color" :show-arrow="false">
             <file-editing-one class="github" theme="outline" size="24" @click="jumpTo(config.efug)" />
           </el-tooltip>
         </div>

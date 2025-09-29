@@ -3,7 +3,7 @@
     <Transition name="fade" mode="out-in">
       <div v-if="!store.playerState || !store.playerLrcShow" class="power">
         <span>
-          <span :class="ShowStartYear ? 'c-hidden' : 'hidden'">Copyright&nbsp;</span>
+          <span :class="ShowStartYear ? 'c-hidden' : 'o-hidden'">Copyright&nbsp;</span>
           &copy;
           <span v-if="ShowStartYear" class="site-start">
             {{ startYear }}
@@ -13,13 +13,13 @@
           <a :href="siteUrl">{{ siteAuthor }}</a>
         </span>
         <!-- 以下信息请不要修改哦 -->
-        <span class="hidden">
+        <span class="o-hidden">
           &amp;&nbsp;Made&nbsp;by
           <a :href="config.github" target="_blank">
             {{ config.author }}
           </a>
         </span>
-        <span class="hidden">
+        <span class="o-hidden">
           &amp;&nbsp;Update&nbsp;by
           <a :href="config.efug" target="_blank">
             {{ config.efua }}
@@ -58,11 +58,11 @@
               <paw />
             </Icon>
             <span class="dwrc-box">
-              <span class="dwrc-2 lrc-text text-hidden" id="dwrc-2-wrap">
+              <span class="dwrc-2 lrc-text text-truncate-ellipsis" id="dwrc-2-wrap">
                 <span v-for="(i, index) in store.playerLrc" :key="`lrc-over-char-${i[2]}-${i[3]}`" v-html="i[4]">
                 </span>
               </span>
-              <span class="dwrc-1 lrc-text text-hidden" id="dwrc-1-wrap">
+              <span class="dwrc-1 lrc-text text-truncate-ellipsis" id="dwrc-1-wrap">
                 <span v-for="(i, index) in store.playerLrc" :key="`lrc-char-${i[2]}-${i[3]}`" :class="[
                   'dwrc-char',
                   i[0] && Number(i[6]) > 0 ? 'fade-in' : 'fade-in-start',
@@ -90,7 +90,7 @@
               color="var(--footer-music-paw-icon-color)">
               <paw />
             </Icon>
-            <span class="lrc-text text-hidden" v-html="store.getPlayerLrc[0][4]" :class="`lrc-char`" />
+            <span class="lrc-text text-truncate-ellipsis" v-html="store.getPlayerLrc[0][4]" :class="`lrc-char`" />
             <Icon size="20" style="transform: rotate(18deg);" class="paws-4" color="var(--footer-music-paw-icon-color)">
               <paw />
             </Icon>
@@ -596,7 +596,7 @@ watch(() => store.getPlayerLrc, (_new, _old) => {
   }
 
   @media (max-width: 480px) {
-    .hidden {
+    .o-hidden {
       display: none;
     }
   }
