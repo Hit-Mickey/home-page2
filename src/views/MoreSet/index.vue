@@ -55,17 +55,17 @@
               <span>更新日志</span>
             </div>
           </template>
-          <div class="upnote">
-            <div v-for="item in upData.new" :key="item" class="uptext">
-              <add-one theme="outline" size="22" />
-              {{ item }}
-            </div>
-            <div v-for="item in upData.fix" :key="item" class="uptext">
-              <bug theme="outline" size="22" />
-              {{ item }}
-            </div>
-          </div>
-        </el-card> -->
+<div class="upnote">
+  <div v-for="item in upData.new" :key="item" class="uptext">
+    <add-one theme="outline" size="22" />
+    {{ item }}
+  </div>
+  <div v-for="item in upData.fix" :key="item" class="uptext">
+    <bug theme="outline" size="22" />
+    {{ item }}
+  </div>
+</div>
+</el-card> -->
       </el-col>
       <!-- 桌面端设置菜单 -->
       <el-col :span="12" class="right">
@@ -125,20 +125,24 @@ const toggleVer = () => {
       dangerouslyUseHTMLString: true,
       message: `怎么还在戳哇喂！有那么神秘嘛...？`,
     });
-    stopSpeech();
-    const voice = import.meta.env.VITE_TTS_Voice;
-    const vstyle = import.meta.env.VITE_TTS_Style;
-    SpeechLocal("戳戳版本.mp3");
+    if (store.webSpeech) {
+      stopSpeech();
+      const voice = import.meta.env.VITE_TTS_Voice;
+      const vstyle = import.meta.env.VITE_TTS_Style;
+      SpeechLocal("戳戳版本.mp3");
+    };
     store.setV = true;
   } else {
     ElMessage({
       dangerouslyUseHTMLString: true,
       message: `诶？是在找...什么神秘的东西嘛？`,
     });
-    stopSpeech();
-    const voice = import.meta.env.VITE_TTS_Voice;
-    const vstyle = import.meta.env.VITE_TTS_Style;
-    SpeechLocal("戳版本.mp3");
+    if (store.webSpeech) {
+      stopSpeech();
+      const voice = import.meta.env.VITE_TTS_Voice;
+      const vstyle = import.meta.env.VITE_TTS_Style;
+      SpeechLocal("戳版本.mp3");
+    };
   };
 };
 

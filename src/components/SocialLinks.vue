@@ -14,7 +14,9 @@
 <script setup lang="ts">
 import socialLinks from "@/assets/socialLinks.json";
 import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+import { mainStore } from "@/store";
 
+const store = mainStore();
 // 社交链接提示
 const socialTip = ref("通过这里联系我吧");
 
@@ -23,10 +25,12 @@ const togglesocial = () => {
     dangerouslyUseHTMLString: true,
     message: `哦？来扩列嘛？~`,
   });
-  stopSpeech();
-  const voice = import.meta.env.VITE_TTS_Voice;
-  const vstyle = import.meta.env.VITE_TTS_Style;
-  SpeechLocal("戳戳社.mp3");
+  if (store.webSpeech) {
+    stopSpeech();
+    const voice = import.meta.env.VITE_TTS_Voice;
+    const vstyle = import.meta.env.VITE_TTS_Style;
+    SpeechLocal("戳戳社.mp3");
+  };
 };
 </script>
 
