@@ -31,10 +31,12 @@ export interface MainState {
     playerOrder: "list" | "random";
     webSpeech: boolean;
     playerSpeechName: boolean;
+    playerTrLrc: boolean;
     playerDWRCShow: boolean;
     playerDWRCShowPro: boolean;
     playerDWRCATDB: boolean;
     playerDWRCATDBF: boolean;
+    playerDWRCPilfer: boolean;
     playerCurrentTime: number | null;
     playerDuration: number | null;
     dwrcIndex: number | null;

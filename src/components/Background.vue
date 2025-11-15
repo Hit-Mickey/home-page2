@@ -26,7 +26,7 @@ const store = mainStore();
 const bgUrl = ref(null);
 const imgTimeout = ref(null);
 const emit = defineEmits(["loadComplete"]);
-const key = import.meta.env.VITE_SFILE_SKEY;
+const key = envConfig.VITE_SFILE_SKEY;
 const isLoading = ref(false);
 
 // 自定义壁纸
@@ -170,8 +170,8 @@ const imgLoadError = async () => {
   };
   if (store.webSpeech) {
     stopSpeech();
-    const voice = import.meta.env.VITE_TTS_Voice;
-    const vstyle = import.meta.env.VITE_TTS_Style;
+    const voice = envConfig.VITE_TTS_Voice;
+    const vstyle = envConfig.VITE_TTS_Style;
     SpeechLocal("壁纸加载失败.mp3");
   };
 };

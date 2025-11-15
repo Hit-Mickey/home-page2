@@ -36,10 +36,12 @@ export const storeState: MainState = {
   playerOrder: "random", // 【开关】循环顺序 "list", "random"
   webSpeech: true, // 【开关】网页语音交互总开关（包含播报歌名功能）
   playerSpeechName: true, // 【开关】播报歌名
+  playerTrLrc: false, // 【开关】逐行歌词调用翻译歌词开关
   playerDWRCShow: true, // 【开关】逐字歌词解析总开关
   playerDWRCShowPro: true, // 【开关】逐字效果增强开关
   playerDWRCATDB: true, // 【开关】允许接入 AMLL TTML Database
   playerDWRCATDBF: true, // 【开关】接入 AMLL TTML Database 时使用镜像加速
+  playerDWRCPilfer: true, // 【开关】拆东墙补西墙（目前未完成校准处理，可能出现歌词进度不匹配问题。如无法接受，可默认关闭。）
   playerCurrentTime: null as number | null, // 【缓存】当前歌曲已播放时间
   playerDuration: null as number | null, // 【缓存】当前歌曲总时长
   dwrcIndex: -1 as number | null, // 【缓存】逐字歌词进度存储
@@ -156,10 +158,12 @@ export const mainStore = defineStore("main", {
         'playerOrder',
         'webSpeech',
         'playerSpeechName',
+        'playerTrLrc',
         'playerDWRCShow',
         'playerDWRCShowPro',
         'playerDWRCATDB',
         'playerDWRCATDBF',
+        'playerDWRCPilfer',
         'seasonalEffects',
         'theme',
       ],

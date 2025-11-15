@@ -29,12 +29,12 @@ const loadJSONP = (url, callbackName) => {
  */
 
 // 获取音乐播放列表
-export const getPlayerList = async (server, type, id, serverse, idse) => {
+export const getPlayerList = async (server, type, id, serverse, idse, playerTrLrc) => {
   let dataf: any[] = [], data3: any[] = [], data1: any[] = [], data2: any[] = [];
   if (serverse != null && idse != null) {
     try {
       const res1 = await fetch(
-        `${import.meta.env.VITE_SONG_API}?server=${server}&type=${type}&id=${id}`,
+        `${envConfig.VITE_SONG_API}?server=${server}&type=${type}&id=${id}`,
       );
       data1 = await res1.json();
     } catch (e) {
@@ -43,7 +43,7 @@ export const getPlayerList = async (server, type, id, serverse, idse) => {
     };
     try {
       const res2 = await fetch(
-        `${import.meta.env.VITE_SONG_API}?server=${serverse}&type=${type}&id=${idse}`,
+        `${envConfig.VITE_SONG_API}?server=${serverse}&type=${type}&id=${idse}`,
       );
       data2 = await res2.json();
     } catch (e) {
@@ -54,7 +54,7 @@ export const getPlayerList = async (server, type, id, serverse, idse) => {
   } else {
     try {
       const res1 = await fetch(
-        `${import.meta.env.VITE_SONG_API}?server=${server}&type=${type}&id=${id}`,
+        `${envConfig.VITE_SONG_API}?server=${server}&type=${type}&id=${id}`,
       );
       data3 = await res1.json();
     } catch (e) {
@@ -72,19 +72,19 @@ export const getPlayerList = async (server, type, id, serverse, idse) => {
     return data.map((v, i) => ({
       name: v.name || v.title,
       artist: v.artist || v.author,
-      album: v.album || import.meta.env.VITE_SITE_NAME,
+      album: v.album || envConfig.VITE_SITE_NAME,
       url: domain + (jsonpData.req_0?.data?.midurlinfo[i]?.purl || ""),
       cover: v.cover || v.pic,
-      lrc: v.lrc,
+      lrc: playerTrLrc && v.lrc ? `${v.lrc}${v.lrc.includes("?") ? "&" : "?"}trlrc=true` : v.lrc,
     }));
   } else {
     return data.map((v) => ({
       name: v.name || v.title,
       artist: v.artist || v.author,
-      album: v.album || import.meta.env.VITE_SITE_NAME,   // 没办法，Netease 的 SONG 接口压根不返回专辑名，搜索接口倒是有...
+      album: v.album || envConfig.VITE_SITE_NAME,   // 没办法，Netease 的 SONG 接口压根不返回专辑名，搜索接口倒是有...
       url: v.url,
       cover: v.cover || v.pic,
-      lrc: v.lrc,
+      lrc: playerTrLrc && v.lrc ? `${v.lrc}${v.lrc.includes("?") ? "&" : "?"}trlrc=true` : v.lrc,
     }));
   }
 };

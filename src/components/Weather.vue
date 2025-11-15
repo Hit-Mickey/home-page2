@@ -42,9 +42,9 @@ import type {
 const store = mainStore();
 
 // 加载密钥
-const txkey = import.meta.env.VITE_TX_WEATHER_KEY; // 腾讯天气密钥
-const txskey = import.meta.env.VITE_TX_WEATHER_SKEY; // 选择性对腾讯天气接口加密
-const gdkey = import.meta.env.VITE_GD_WEATHER_KEY; // 高德天气密钥
+const txkey = envConfig.VITE_TX_WEATHER_KEY; // 腾讯天气密钥
+const txskey = envConfig.VITE_TX_WEATHER_SKEY; // 选择性对腾讯天气接口加密
+const gdkey = envConfig.VITE_GD_WEATHER_KEY; // 高德天气密钥
 
 // 天气数据
 const weatherData = reactive<{
@@ -77,8 +77,8 @@ const getTemperature = (min, max) => {
     console.error("计算温度出现错误：", error);
     if (store.webSpeech) {
       stopSpeech();
-      const voice = import.meta.env.VITE_TTS_Voice;
-      const vstyle = import.meta.env.VITE_TTS_Style;
+      const voice = envConfig.VITE_TTS_Voice;
+      const vstyle = envConfig.VITE_TTS_Style;
       SpeechLocal("天气信息无法计算.mp3");
     };
     return "NaN";
@@ -94,8 +94,8 @@ const getTXW = async () => {
     if (String(adCode.status) !== "0") {
       if (store.webSpeech) {
         stopSpeech();
-        const voice = import.meta.env.VITE_TTS_Voice;
-        const vstyle = import.meta.env.VITE_TTS_Style;
+        const voice = envConfig.VITE_TTS_Voice;
+        const vstyle = envConfig.VITE_TTS_Style;
         SpeechLocal("位置信息获取失败.mp3");
       };
       throw "天气信息获取失败";
@@ -108,8 +108,8 @@ const getTXW = async () => {
     if (weatherData.adCode.adcode == null) {
       if (store.webSpeech) {
         stopSpeech();
-        const voice = import.meta.env.VITE_TTS_Voice;
-        const vstyle = import.meta.env.VITE_TTS_Style;
+        const voice = envConfig.VITE_TTS_Voice;
+        const vstyle = envConfig.VITE_TTS_Style;
         SpeechLocal("天气加载失败.mp3");
       };
       throw "天气信息获取失败";
@@ -118,8 +118,8 @@ const getTXW = async () => {
     if (String(txWeather.status) !== "0") {
       if (store.webSpeech) {
         stopSpeech();
-        const voice = import.meta.env.VITE_TTS_Voice;
-        const vstyle = import.meta.env.VITE_TTS_Style;
+        const voice = envConfig.VITE_TTS_Voice;
+        const vstyle = envConfig.VITE_TTS_Style;
         SpeechLocal("天气加载失败.mp3");
       };
       throw "天气信息获取失败";
@@ -128,8 +128,8 @@ const getTXW = async () => {
     if (!realtimeData?.infos) {
       if (store.webSpeech) {
         stopSpeech();
-        const voice = import.meta.env.VITE_TTS_Voice;
-        const vstyle = import.meta.env.VITE_TTS_Style;
+        const voice = envConfig.VITE_TTS_Voice;
+        const vstyle = envConfig.VITE_TTS_Style;
         SpeechLocal("天气加载失败.mp3");
       };
       throw "天气信息获取失败";
@@ -147,8 +147,8 @@ const getTXW = async () => {
     if (String(adCode?.status) !== "0") {
       if (store.webSpeech) {
         stopSpeech();
-        const voice = import.meta.env.VITE_TTS_Voice;
-        const vstyle = import.meta.env.VITE_TTS_Style;
+        const voice = envConfig.VITE_TTS_Voice;
+        const vstyle = envConfig.VITE_TTS_Style;
         SpeechLocal("位置信息获取失败.mp3");
       };
       throw "天气信息获取失败";
@@ -161,8 +161,8 @@ const getTXW = async () => {
     if (weatherData.adCode.adcode == null) {
       if (store.webSpeech) {
         stopSpeech();
-        const voice = import.meta.env.VITE_TTS_Voice;
-        const vstyle = import.meta.env.VITE_TTS_Style;
+        const voice = envConfig.VITE_TTS_Voice;
+        const vstyle = envConfig.VITE_TTS_Style;
         SpeechLocal("天气加载失败.mp3");
       };
       throw "天气信息获取失败";
@@ -171,8 +171,8 @@ const getTXW = async () => {
     if (String(txWeather.status) !== "0") {
       if (store.webSpeech) {
         stopSpeech();
-        const voice = import.meta.env.VITE_TTS_Voice;
-        const vstyle = import.meta.env.VITE_TTS_Style;
+        const voice = envConfig.VITE_TTS_Voice;
+        const vstyle = envConfig.VITE_TTS_Style;
         SpeechLocal("天气加载失败.mp3");
       };
       throw "天气信息获取失败";
@@ -181,8 +181,8 @@ const getTXW = async () => {
     if (!realtimeData?.infos) {
       if (store.webSpeech) {
         stopSpeech();
-        const voice = import.meta.env.VITE_TTS_Voice;
-        const vstyle = import.meta.env.VITE_TTS_Style;
+        const voice = envConfig.VITE_TTS_Voice;
+        const vstyle = envConfig.VITE_TTS_Style;
         SpeechLocal("天气加载失败.mp3");
       };
       throw "天气信息获取失败";
@@ -207,8 +207,8 @@ const getGDW = async () => {
     if (String(adCodei?.infocode) !== "10000" || String(adCodei?.status) !== "1") {
       if (store.webSpeech) {
         stopSpeech();
-        const voice = import.meta.env.VITE_TTS_Voice;
-        const vstyle = import.meta.env.VITE_TTS_Style;
+        const voice = envConfig.VITE_TTS_Voice;
+        const vstyle = envConfig.VITE_TTS_Style;
         SpeechLocal("位置信息获取失败.mp3");
       };
       throw "天气信息获取失败";
@@ -229,8 +229,8 @@ const getGDW = async () => {
   if (weatherData.adCode.adcode == null) {
     if (store.webSpeech) {
       stopSpeech();
-      const voice = import.meta.env.VITE_TTS_Voice;
-      const vstyle = import.meta.env.VITE_TTS_Style;
+      const voice = envConfig.VITE_TTS_Voice;
+      const vstyle = envConfig.VITE_TTS_Style;
       SpeechLocal("天气加载失败.mp3");
     };
     throw "天气信息获取失败";
@@ -239,8 +239,8 @@ const getGDW = async () => {
   if (String(result?.status) !== "1" || String(result?.infocode) !== "10000") {
     if (store.webSpeech) {
       stopSpeech();
-      const voice = import.meta.env.VITE_TTS_Voice;
-      const vstyle = import.meta.env.VITE_TTS_Style;
+      const voice = envConfig.VITE_TTS_Voice;
+      const vstyle = envConfig.VITE_TTS_Style;
       SpeechLocal("天气加载失败.mp3");
     };
     throw "天气信息获取失败";
@@ -273,8 +273,8 @@ const getHXHW = async () => {
   if (String(result?.success) !== "true") {
     if (store.webSpeech) {
       stopSpeech();
-      const voice = import.meta.env.VITE_TTS_Voice;
-      const vstyle = import.meta.env.VITE_TTS_Style;
+      const voice = envConfig.VITE_TTS_Voice;
+      const vstyle = envConfig.VITE_TTS_Style;
       SpeechLocal("天气加载失败.mp3");
     };
     throw "天气信息获取失败";
@@ -360,8 +360,8 @@ const getWeatherData = async () => {
     onError("天气信息获取失败");
     if (store.webSpeech) {
       stopSpeech();
-      const voice = import.meta.env.VITE_TTS_Voice;
-      const vstyle = import.meta.env.VITE_TTS_Style;
+      const voice = envConfig.VITE_TTS_Voice;
+      const vstyle = envConfig.VITE_TTS_Style;
       SpeechLocal("天气加载失败.mp3");
     };
   };

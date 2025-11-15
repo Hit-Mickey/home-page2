@@ -17,7 +17,7 @@ export default ({ mode }: { mode: string }): UserConfig => {
             vue(),
             UnoCSS(),
             AutoImport({
-                imports: ["vue"],
+                imports: ["vue", { "@/utils/config_check.ts": ["envConfig"] }],
                 resolvers: [ElementPlusResolver()],
                 dts: "src/auto-imports.d.ts",
             }),
@@ -126,7 +126,7 @@ export default ({ mode }: { mode: string }): UserConfig => {
             minify: "terser",
             terserOptions: {
                 compress: {
-                    pure_funcs: ["console.log"],
+                    pure_funcs: ["console.debug"],
                 },
             },
             rollupOptions: {
