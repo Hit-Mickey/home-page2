@@ -106,8 +106,31 @@ if (!import.meta.env.VITE_CONFIG_TURN || import.meta.env.VITE_CONFIG_TURN != "tr
       })
     });
 } else {
+  /* 原本这里的逻辑是..如果作者信息被修改，则停止项目运行。原本是想拦没有代码更改但删除作者信息直接倒卖的人，因为但凡是个会一点代码的人不可能不会解决这点小问题。这在技术上几乎没有一点防护效果。
+  但是看到确实有用户修改后，思考了一阵，这好像和 MIT 开源文化有冲突...且 MIT 本身也就允许倒卖这种行为叭..（
+  最后..还是决定将这里的完全不运行改成弹窗提示后继续正常工作，更合理些叭...理解万岁！
+  如果你在修改部分代码后弹出提示，直接移除这个模块保留 mountApp(); 即可。
+  另外，也请求各位不要随意移除原作者信息，谢谢！ */
   if (config.author != 'imsyy' || config.efua != 'NanoRocky') {
     console.error(`Warning: Somethings error ... , please delete and re-download the project package.`);
+    ElMessageBox.confirm(
+    '检测到项目信息被修改，如果这不是您的修改所为，请重新下载项目包！',
+    '警告',
+    {
+      confirmButtonText: '继续',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      mountApp();
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '请重新获取仓库项目包！',
+      })
+    });
   } else {
     mountApp();
   };
