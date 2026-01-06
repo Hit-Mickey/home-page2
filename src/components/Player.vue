@@ -13,6 +13,7 @@ import APlayer from "@worstone/vue-aplayer";
 import type { APlayer as APlayerType } from '@worstone/vue-aplayer';
 import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 import { decodeDWQYRC } from "@/utils/decodeDWQYRC";
+import { alignPilferedLyrics } from "@/utils/checkPilferDWRC";
 
 const store = mainStore();
 let showDWRCRunning = 0;
@@ -364,7 +365,7 @@ const fetchDWRC = async (dwrcUrl: string) => {
   const dwrcText = await dwrcSource.text();
   store.dwrcIndex = playIndex.value;
   try {
-    const decoded = decodeDWQYRC(dwrcText);
+    const decoded = decodeDWQYRC(dwrcText, store.playerRMMetadata);
     store.dwrcTemp = Array.isArray(decoded) ? decoded as DWRCItem[] : [];
     store.dwrcLoading = false;
     store.dwrcEnable = true;
@@ -407,7 +408,7 @@ const fetchDWRC = async (dwrcUrl: string) => {
         throw new Error(`AMLL TTML Database 调用失败...`);
       } else {
         const amllText = await amllSource.text();
-        const decoded = decodeDWQYRC(amllText);
+        const decoded = decodeDWQYRC(amllText, store.playerRMMetadata);
         store.dwrcTemp = Array.isArray(decoded) ? decoded as DWRCItem[] : [];
         store.dwrcLoading = false;
         store.dwrcEnable = true;
@@ -433,7 +434,7 @@ const fetchDWRC = async (dwrcUrl: string) => {
               store.dwrcEnable = false;
             } else {
               const amllTextse = await amllSourcese.text();
-              const decodedse = decodeDWQYRC(amllTextse);
+              const decodedse = decodeDWQYRC(amllTextse, store.playerRMMetadata);
               store.dwrcTemp = Array.isArray(decodedse) ? decodedse as DWRCItem[] : [];
               store.dwrcLoading = false;
               store.dwrcEnable = true;
@@ -462,11 +463,30 @@ const fetchDWRC = async (dwrcUrl: string) => {
       const pilferUrl = `${baseUrl}?server=${currentServer}&type=search&id=0&dwrc=true&keyword=${encodeURIComponent(currentName)}`;
       const resp = await fetch(pilferUrl);
       const data = await resp.json();
-      if (Array.isArray(data) && data.length > 0) {
-        const match = data.find(
+      const list = Array.isArray(data)
+        ? data
+        : (data && typeof data === "object" ? Object.values(data) : []);
+      if (list.length > 0) {
+        const stripBrackets = (title?: string) => {
+          if (!title) return '';
+          let result = title;
+          while (/[（(\[{<【《）)\]}>】》]/.test(result)) {
+            result = result.replace(/[（(\[{<【《][^（(\[{<【《）)\]}>】》]*[）)\]}>】》]/g, '');
+          }
+          return result.replace(/\s+/g, ' ').trim();
+        };
+        const normalizeArtist = (name?: string) => {
+          if (!name) return '';
+          let result = stripBrackets(name);
+          result = result.replace(/[（(\[{<【《][^（(\[{<【《）)\]}>】》]*[）)\]}>】》]/g, '');
+          return result.trim();
+        };
+        const normalizedCurrentName = stripBrackets(currentName);
+        const normalizedCurrentArtist = normalizeArtist(currentArtist);
+        const match = list.find(
           (item) =>
-            item.name?.trim() === currentName &&
-            item.artist?.trim() === currentArtist
+            stripBrackets(item.name) === normalizedCurrentName &&
+            normalizeArtist(item.artist) === normalizedCurrentArtist
         );
         if (match && match.lrc) {
           let lrcUrl = match.lrc;
@@ -480,12 +500,22 @@ const fetchDWRC = async (dwrcUrl: string) => {
           lrcUrl = urlObj.toString();
           const pilferSource = await fetch(lrcUrl);
           const pilferText = await pilferSource.text();
-          const decoded = decodeDWQYRC(pilferText);
-          store.dwrcTemp = Array.isArray(decoded) ? (decoded as DWRCItem[]) : [];
-          store.dwrcLoading = false;
-          store.dwrcEnable = true;
-          console.log(`当前正在播放 ${songServer} 来源的《${store.getPlayerData.name}》- '${store.getPlayerData.artist}'，猫猫已成功从 ${currentServer} 偷到逐字歌词~`);
-          return;
+          const originalLrcUrl = player.value!.aplayer.audio[player.value!.aplayer.index]["lrc"];
+          const sourceLrcResp = await fetch(originalLrcUrl);
+          const sourceLrcText = await sourceLrcResp.text();
+          const processedText = alignPilferedLyrics(pilferText, sourceLrcText);
+          if (processedText) {
+            const decoded = decodeDWQYRC(processedText, store.playerRMMetadata);
+            store.dwrcTemp = Array.isArray(decoded) ? (decoded as DWRCItem[]) : [];
+            store.dwrcLoading = false;
+            store.dwrcEnable = true;
+            console.log(`当前正在播放 ${songServer} 来源的《${store.getPlayerData.name}》- '${store.getPlayerData.artist}'，已成功从 ${currentServer} 偷到逐字歌词~`);
+            return;
+          } else {
+            store.dwrcTemp = [];
+            store.dwrcLoading = false;
+            store.dwrcEnable = false;
+          };
         } else {
           store.dwrcTemp = [];
           store.dwrcLoading = false;
