@@ -1,7 +1,12 @@
 <template>
   <div :class="store.backgroundShow ? 'cover show' : 'cover'">
-    <img v-show="store.imgLoadStatus" :src="bgUrl" class="bg" alt="cover" @load="imgLoadComplete"
-      @error.once="imgLoadError" @animationend="imgAnimationEnd" />
+    <!-- 当前壁纸层 -->
+    <img v-show="store.imgLoadStatus" :src="currentBgUrl" :class="['bg', 'current', { 'blur-out': isTransitioning }]"
+      alt="cover" @load="imgLoadComplete" @error.once="imgLoadError" @animationend="imgAnimationEnd"
+      crossorigin="anonymous" />
+    <!-- 新壁纸层 -->
+    <img v-if="isTransitioning" :src="nextBgUrl" :class="['bg', 'next', { 'blur-in': isBlurringIn }]" alt="cover"
+      crossorigin="anonymous" />
     <div :class="store.backgroundShow ? 'gray o-hidden' : 'gray'" />
     <Transition name="fade" mode="out-in">
       <a v-if="store.backgroundShow && store.coverType != '3'" class="down" :href="bgUrl" target="_blank">
@@ -23,9 +28,13 @@ import { gasC } from "@/utils/authServer";
 
 
 const store = mainStore();
-const bgUrl = ref(null);
+const currentBgUrl = ref(null);
+const nextBgUrl = ref(null);
+const isTransitioning = ref(false);
+const isBlurringIn = ref(false);
 const imgTimeout = ref(null);
-const emit = defineEmits(["loadComplete"]);
+const autoBGSwitchTimer = ref(null); // 定时切换定时器
+const emit = defineEmits(["loadComplete", "imageLoaded"]);
 const key = envConfig.VITE_SFILE_SKEY;
 const isLoading = ref(false);
 
@@ -96,6 +105,7 @@ const changeBg = async (type) => {
       const configLoaded = await loadConfig();
       const deviceType = await detectDevice();
       if (!configLoaded) return;
+      let newBgUrl = null;
       if (type == 0) {
         // 这里指定了所有自定义背景的文件格式，必须统一。可以自定义修改，比如 webp 或 png
         // 酪灰的小批注：这里添加了设备类型识别以加载不同分辨率的壁纸
@@ -103,40 +113,88 @@ const changeBg = async (type) => {
         if (deviceType === 'mobile') {
           if (key) {
             const bgUrlS = `/images/phone/backgroundphone${bgRandomp}.jpg`;
-            bgUrl.value = await gasC(bgUrlS, key);
+            newBgUrl = await gasC(bgUrlS, key);
           } else {
-            bgUrl.value = `/images/phone/backgroundphone${bgRandomp}.jpg`;
+            newBgUrl = `/images/phone/backgroundphone${bgRandomp}.jpg`;
           };
         } else if (deviceType === 'tablet' || deviceType === 'pc') {
           if (key) {
             const bgUrlS = `/images/background${bgRandom}.jpg`;
-            bgUrl.value = await gasC(bgUrlS, key);
+            newBgUrl = await gasC(bgUrlS, key);
           } else {
-            bgUrl.value = `/images/background${bgRandom}.jpg`;
+            newBgUrl = `/images/background${bgRandom}.jpg`;
           };
         } else {
           if (key) {
             const bgUrlS = `/images/background${bgRandom}.jpg`;
-            bgUrl.value = await gasC(bgUrlS, key);
+            newBgUrl = await gasC(bgUrlS, key);
           } else {
-            bgUrl.value = `/images/background${bgRandom}.jpg`;
+            newBgUrl = `/images/background${bgRandom}.jpg`;
           };
         };
       } else if (type == 1) {
-        bgUrl.value = "https://api.dujin.org/bing/1920.php";
+        newBgUrl = "https://api.dujin.org/bing/1920.php";
       } else if (type == 2) {
-        bgUrl.value = "https://api.vvhan.com/api/wallpaper/views";
+        newBgUrl = "https://api.vvhan.com/api/wallpaper/views";
       } else if (type == 3) {
-        bgUrl.value = "https://api.vvhan.com/api/wallpaper/acg";
+        newBgUrl = "https://api.vvhan.com/api/wallpaper/acg";
       };
+      await preloadImage(newBgUrl);
     } finally {
       isLoading.value = false;
     };
   })();
 };
 
+// 预加载图片并执行过渡动画
+const preloadImage = (url) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      // 图片加载完成后,执行过渡动画
+      performTransition(url);
+      resolve();
+    };
+    img.onerror = () => {
+      reject(new Error('图片加载失败'));
+    };
+    img.src = url;
+  });
+};
+
+// 执行过渡动画
+const performTransition = async (newUrl) => {
+  // 如果是第一次加载,直接设置
+  if (!currentBgUrl.value) {
+    currentBgUrl.value = newUrl;
+    return;
+  }
+
+  // 开始过渡
+  nextBgUrl.value = newUrl;
+  isTransitioning.value = true;
+  isBlurringIn.value = false;
+
+  // 等待DOM更新,确保新图层已渲染但保持初始模糊状态
+  await nextTick();
+
+  // 稍微延迟后开始淡入动画,确保初始状态已应用
+  setTimeout(() => {
+    isBlurringIn.value = true;
+  }, 30);
+
+  // 等待过渡完全完成后再切换 (1.6s transform是最长的，再加100ms缓冲)
+  setTimeout(() => {
+    currentBgUrl.value = newUrl;
+    isTransitioning.value = false;
+    isBlurringIn.value = false;
+    nextBgUrl.value = null;
+  }, 1700);
+};
+
 // 图片加载完成
-const imgLoadComplete = () => {
+const imgLoadComplete = (event) => {
+  emit("imageLoaded", event.target);
   imgTimeout.value = setTimeout(
     () => {
       store.setImgLoadStatus(true);
@@ -154,7 +212,7 @@ const imgAnimationEnd = () => {
 
 // 图片显示失败
 const imgLoadError = async () => {
-  console.error("壁纸加载失败：", bgUrl.value);
+  console.error("壁纸加载失败：", currentBgUrl.value);
   ElMessage({
     message: "壁纸加载失败，已临时切换回默认",
     icon: h(Error, {
@@ -164,9 +222,9 @@ const imgLoadError = async () => {
   });
   if (key) {
     const bgUrlS = `/images/background${bgRandom}.webp`;
-    bgUrl.value = await gasC(bgUrlS, key);
+    currentBgUrl.value = await gasC(bgUrlS, key);
   } else {
-    bgUrl.value = `/images/background${bgRandom}.webp`;
+    currentBgUrl.value = `/images/background${bgRandom}.webp`;
   };
   if (store.webSpeech) {
     stopSpeech();
@@ -246,16 +304,55 @@ const SeasonStyle = async (type, state, where) => {
   sest = 1;
 };
 
+// 定时切换壁纸功能
+const setupAutoSwitch = () => {
+  if (autoBGSwitchTimer.value) {
+    clearInterval(autoBGSwitchTimer.value);
+    autoBGSwitchTimer.value = null;
+  };
+
+  // 获取定时切换设置值
+  const switchMode = store.autoBGSwitchInterval || 0;
+
+  // 根据模式设置间隔时间（毫秒）
+  const intervals = {
+    0: 0,      // 不自动切换
+    1: 15000,   // 15秒
+    2: 30000,  // 30秒
+    3: 45000   // 45秒
+  };
+  const interval = intervals[switchMode];
+  if (interval === 0) {
+    return;
+  };
+
+  const switchBackground = async () => {
+    if (isLoading.value) return;
+    bgRandom = Math.floor(Math.random() * bgImageCount + 1);
+    bgRandomp = Math.floor(Math.random() * bgImageCountP + 1);
+    sBGCountN = null;
+    await changeBg(Number(store.coverType));
+  };
+
+  // 启动定时器
+  autoBGSwitchTimer.value = setInterval(switchBackground, interval);
+};
+
 onMounted(async () => {
   // 加载壁纸
   await changeBg(Number(store.coverType));
   // 加载季节特效
   if (store.seasonalEffects) { await SeasonStyle(0, true, 'normal') } else { sest = 1 };
+  // 启动定时切换
+  setupAutoSwitch();
 });
 
 onBeforeUnmount(() => {
   if (imgTimeout.value) {
     clearTimeout(imgTimeout.value);
+  };
+  if (autoBGSwitchTimer.value) {
+    clearInterval(autoBGSwitchTimer.value);
   };
 });
 
@@ -276,6 +373,10 @@ watch(() => store.sBGCount, async (value) => {
   sBGCountN = value;
   await changeBg(Number(store.coverType));
   store.setSBGCount(null);
+});
+
+watch(() => store.autoBGSwitchInterval, () => {
+  setupAutoSwitch();
 });
 </script>
 

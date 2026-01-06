@@ -8,6 +8,8 @@ export const storeState: MainState = {
   innerWidth: null as number | null, // 【状态】当前窗口宽度
   coverType: 0 as number, // 【开关】壁纸种类
   sBGCount: null as string | null, // 【状态】使用内置壁纸时用于临时指定壁纸的接口
+  /* 0 不切换，1 等待 15 秒，2 等待 30 秒，3 等待 45 秒。 */
+  autoBGSwitchInterval : 2 as number, // 【开关】自动切换壁纸设置
   seasonalEffects: true, // 【开关】季节特效
   msgNameShow: false, // 【开关】信息区域显示自定义名而非原本的 URL
   siteStartShow: true, // 【开关】建站日期显示

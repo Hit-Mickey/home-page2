@@ -36,12 +36,23 @@
                         :inactive-icon="CloseSmall" />
                 </div>
             </el-collapse-item>
-            <el-collapse-item title="重置" name="4">
+            <el-collapse-item title="壁纸高级设置" name="4">
+                <div class="item">
+                    <span class="text">壁纸自动切换</span><br><br>
+                    <el-radio-group v-model="autoBGSwitchInterval" size="small" text-color="#FFFFFF">
+                        <el-radio :value="0" border>禁用</el-radio>
+                        <el-radio :value="1" border>15 秒</el-radio>
+                        <el-radio :value="2" border>30 秒</el-radio>
+                        <el-radio :value="3" border>45 秒</el-radio>
+                    </el-radio-group>
+                </div>
+            </el-collapse-item>
+            <el-collapse-item title="重置" name="5">
                 <div class="item">
                     <el-button plain class="el-button" @click="resetSettings()">重置所有设置</el-button>
                 </div>
             </el-collapse-item>
-            <el-collapse-item title="检查版本更新" name="5">
+            <el-collapse-item title="检查版本更新" name="6">
                 <div class="item">
                     <div class="upver">版本号 v{{ versionInfo.version }}，{{ versTypeT }}，{{ versionInfo.channel }} 渠道，by {{
                         versionInfo.upa }} 。
@@ -89,7 +100,8 @@ const {
     setV,
     theme,
     msgNameShow,
-    playerDWRCPilfer
+    playerDWRCPilfer,
+    autoBGSwitchInterval
 } = storeToRefs(store);
 
 const versionInfo = parseVersion(config.version);
