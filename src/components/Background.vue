@@ -2,11 +2,9 @@
   <div :class="store.backgroundShow ? 'cover show' : 'cover'">
     <!-- 当前壁纸层 -->
     <img v-show="store.imgLoadStatus" :src="currentBgUrl" :class="['bg', 'current', { 'blur-out': isTransitioning }]"
-      alt="cover" @load="imgLoadComplete" @error.once="imgLoadError" @animationend="imgAnimationEnd"
-      crossorigin="anonymous" />
+      alt="cover" @load="imgLoadComplete" @error.once="imgLoadError" @animationend="imgAnimationEnd" />
     <!-- 新壁纸层 -->
-    <img v-if="isTransitioning" :src="nextBgUrl" :class="['bg', 'next', { 'blur-in': isBlurringIn }]" alt="cover"
-      crossorigin="anonymous" />
+    <img v-if="isTransitioning" :src="nextBgUrl" :class="['bg', 'next', { 'blur-in': isBlurringIn }]" alt="cover" />
     <div :class="store.backgroundShow ? 'gray o-hidden' : 'gray'" />
     <Transition name="fade" mode="out-in">
       <a v-if="store.backgroundShow && store.coverType != '3'" class="down" :href="bgUrl" target="_blank">
@@ -96,6 +94,34 @@ const detectDevice = () => {
   };
 };
 
+const getLocalBgUrl = async (deviceType) => {
+  // 这里指定了所有自定义背景的文件格式，必须统一。可以自定义修改，比如 webp 或 png
+  // 酪灰的小批注：这里添加了设备类型识别以加载不同分辨率的壁纸
+  // 如果不需要区分设备类型，则只需要保留这一行 bgUrl.value = `/images/background${bgRandom}.jpg`;
+  if (deviceType === 'mobile') {
+    if (key) {
+      const bgUrlS = `/images/phone/backgroundphone${bgRandomp}.jpg`;
+      return await gasC(bgUrlS, key);
+    } else {
+      return `/images/phone/backgroundphone${bgRandomp}.jpg`;
+    };
+  } else if (deviceType === 'tablet' || deviceType === 'pc') {
+    if (key) {
+      const bgUrlS = `/images/background${bgRandom}.jpg`;
+      return await gasC(bgUrlS, key);
+    } else {
+      return `/images/background${bgRandom}.jpg`;
+    };
+  } else {
+    if (key) {
+      const bgUrlS = `/images/background${bgRandom}.jpg`;
+      return await gasC(bgUrlS, key);
+    } else {
+      return `/images/background${bgRandom}.jpg`;
+    };
+  };
+};
+
 // 更换壁纸链接
 const changeBg = async (type) => {
   if (isLoading.value) return;
@@ -107,31 +133,7 @@ const changeBg = async (type) => {
       if (!configLoaded) return;
       let newBgUrl = null;
       if (type == 0) {
-        // 这里指定了所有自定义背景的文件格式，必须统一。可以自定义修改，比如 webp 或 png
-        // 酪灰的小批注：这里添加了设备类型识别以加载不同分辨率的壁纸
-        // 如果不需要区分设备类型，则只需要保留这一行 bgUrl.value = `/images/background${bgRandom}.jpg`;
-        if (deviceType === 'mobile') {
-          if (key) {
-            const bgUrlS = `/images/phone/backgroundphone${bgRandomp}.jpg`;
-            newBgUrl = await gasC(bgUrlS, key);
-          } else {
-            newBgUrl = `/images/phone/backgroundphone${bgRandomp}.jpg`;
-          };
-        } else if (deviceType === 'tablet' || deviceType === 'pc') {
-          if (key) {
-            const bgUrlS = `/images/background${bgRandom}.jpg`;
-            newBgUrl = await gasC(bgUrlS, key);
-          } else {
-            newBgUrl = `/images/background${bgRandom}.jpg`;
-          };
-        } else {
-          if (key) {
-            const bgUrlS = `/images/background${bgRandom}.jpg`;
-            newBgUrl = await gasC(bgUrlS, key);
-          } else {
-            newBgUrl = `/images/background${bgRandom}.jpg`;
-          };
-        };
+        newBgUrl = await getLocalBgUrl(deviceType);
       } else if (type == 1) {
         newBgUrl = "https://api.dujin.org/bing/1920.php";
       } else if (type == 2) {
@@ -139,7 +141,29 @@ const changeBg = async (type) => {
       } else if (type == 3) {
         newBgUrl = "https://api.vvhan.com/api/wallpaper/acg";
       };
-      await preloadImage(newBgUrl);
+      const result = await preloadImage(newBgUrl);
+      if (!result.ok) {
+        console.error("壁纸加载失败：", currentBgUrl.value);
+        ElMessage({
+          message: "壁纸加载失败，已临时切换回默认",
+          icon: h(Error, {
+            theme: "filled",
+            fill: "var(--el-message-icon-color)",
+          }),
+        });
+        newBgUrl = await getLocalBgUrl(deviceType);
+        if (!currentBgUrl.value) {
+          currentBgUrl.value = newBgUrl;
+        } else {
+          performTransition(newBgUrl);
+        };
+        if (store.webSpeech) {
+          stopSpeech();
+          const voice = envConfig.VITE_TTS_Voice;
+          const vstyle = envConfig.VITE_TTS_Style;
+          SpeechLocal("壁纸加载失败.mp3");
+        };
+      };
     } finally {
       isLoading.value = false;
     };
@@ -148,15 +172,15 @@ const changeBg = async (type) => {
 
 // 预加载图片并执行过渡动画
 const preloadImage = (url) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
       // 图片加载完成后,执行过渡动画
       performTransition(url);
-      resolve();
+      resolve({ ok: true });
     };
     img.onerror = () => {
-      reject(new Error('图片加载失败'));
+      resolve({ ok: false });
     };
     img.src = url;
   });
@@ -221,10 +245,10 @@ const imgLoadError = async () => {
     }),
   });
   if (key) {
-    const bgUrlS = `/images/background${bgRandom}.webp`;
+    const bgUrlS = `/images/background${bgRandom}.jpg`;
     currentBgUrl.value = await gasC(bgUrlS, key);
   } else {
-    currentBgUrl.value = `/images/background${bgRandom}.webp`;
+    currentBgUrl.value = `/images/background${bgRandom}.jpg`;
   };
   if (store.webSpeech) {
     stopSpeech();
