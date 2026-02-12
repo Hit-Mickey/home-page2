@@ -4,7 +4,7 @@ permissions:
 on:
   push:
     branches:
-      - EFU
+      - master
       # - dev
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

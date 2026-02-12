@@ -1,17 +1,24 @@
 简体中文 | [English](./README_EN.md)
 
 > [!IMPORTANT]
+>
 > ## 致大家
+>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;嘿！恭喜你看到这里~ 这是酪灰基于原作者 imsyy 主页的修改版本！修改版本添加了更多的功能，但是也会带来更高的性能占用！（主要来自逐字歌词以及季节效果渲染），也添加了安全更新，增强安全性。<p>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;酪灰作为 Vue 初学者，因为热爱，拉着同学 Pizero 完善了这个项目，因此这些代码可能会很 shi，并可能充斥着不少 BUG。欢迎在遇到 BUG 时进行反馈，也欢迎各位大佬帮助！<p>
+>
 >#### 关于问题反馈以及求助
+>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;遇到问题请在 Github 上提 issue ，需要帮助请在 Github 上发 discussion ，看到了会回复。除特殊情况外，<b>请不要直接通过其它社交方式联系酪灰！</b>酪灰不是客服，不提供售后服务，并没有那么多的时间来回复私聊。还请谅解！<p>
+>
 >### 最后，喜欢本项目的话麻烦给个 STAR ！阿里嘎多~
 
 <p>&nbsp;<p>
 
 > [!WARNING]
+>
 > ## 喜报
+>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;间隔 386 天，Google 终于发布新版本 Workbox 了！ <p>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;目前 PWA 应正常工作！<p>
 
@@ -184,6 +191,7 @@ VITE_SONG_TYPE = "playlist"
 VITE_SONG_ID = "3035221869"
 VITE_SONG_ID_SECOND = "9518088898"
 ```
+
 >目前已支持设置两个歌单进行合并，如不需要，留空即可。<p>
 >如果需要使用网易云音乐逐字歌词，请使用 [修改版 Meting-Api](https://github.com/NanoRocky/meting-api/) ！<p>
 
@@ -198,7 +206,6 @@ VITE_SONG_ID_SECOND = "9518088898"
 > `https://cdn-font.hyperos.mi.com/font/css?family=MiSans_VF:VF:Chinese_Simplify,Latin&display=swap` <p>
 > `https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css`
 
-
 ### 网站图标及网站背景
 
 #### 网站背景
@@ -208,6 +215,7 @@ VITE_SONG_ID_SECOND = "9518088898"
 如果想要添加更多的本地图片作为网站背景，可以将图片重命名 `background+数字` 的形式，并进行修改：<p>
 
 >· 先编辑 `src/components/Background/index.vue`
+
 ```js
 // 设置一个默认值，防止在无法加载 JSON 文件时壁纸失效。应该尽量保证壁纸数始终不小于这个默认值
 let bgImageCount = 10; // PC 版壁纸
@@ -215,12 +223,14 @@ let bgImageCountP = 2; // 移动版壁纸
 ```
 
 >· 再编辑 `public/images/config.json`
+
 ```js
 {
   "bgImageCount": 10, // PC 版壁纸
   "bgImageCountP": 2 // 移动版壁纸
 }
 ```
+
 后续添加或减少壁纸，可直接编辑 `config.json` ，而无需重新编译项目。但必须确保壁纸数始终大于或等于 `index.vue` 中的配置。
 
 如需配置默认壁纸选项，请编辑 `src/store/index.js`
@@ -269,10 +279,12 @@ coverType: "0", // 壁纸种类
 [![Star History Chart](https://api.star-history.com/svg?repos=imsyy/home&type=Date)](https://star-history.com/#imsyy/home&Date)
 
 ## 特别鸣谢
+
 - [AMLL TTML Database](https://github.com/Steve-xmh/amll-ttml-db)
 - [Meting API](https://github.com/injahow/meting-api)
 
-### 感谢原作者 imsyy 和帮助本项目的小伙伴们！
+### 感谢原作者 imsyy 和帮助本项目的小伙伴们
+
 - [imsyy](https://github.com/imsyy/)
 - [这个哔养得](https://github.com/pizeroLOL/)
 
