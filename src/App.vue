@@ -76,7 +76,7 @@ watch(
 );
 
 // 监听主题变化
-const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+const darkThemeMq = window.matchMedia("(prefers-color-scheme: light)");
 
 const handleThemeChange = (e?: any) => {
   if (store.theme === "system") {

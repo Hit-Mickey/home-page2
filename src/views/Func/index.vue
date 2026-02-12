@@ -2,10 +2,10 @@
   <div :class="store.mobileFuncState ? 'function mobile' : 'function'">
     <el-row :gutter="20">
       <el-col :span="12">
-        <!-- <div class="left">
+        <div class="left">
           <Hitokoto />
           <Music v-if="playerHasId" />
-        </div> -->
+        </div>
       </el-col>
       <el-col :span="12">
         <div class="right cards">
@@ -42,7 +42,7 @@ const currentTime = ref({});
 const timeInterval = ref(null);
 
 // 播放器 id
-// const playerHasId = import.meta.env.VITE_SONG_ID;
+const playerHasId = import.meta.env.VITE_SONG_ID;
 
 // 更新时间
 const updateTimeData = () => {
