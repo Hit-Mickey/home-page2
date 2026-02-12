@@ -253,53 +253,53 @@ const getGDW = async () => {
   };
 };
 
-const getOW = async () => {
-  const result = await getOtherWeather();
-  const data = result.result;
-  weatherData.adCode = {
-    city: data.city.City || "未知地区",
-    adcode: null
-  };
-  weatherData.weather = {
-    weather: data.condition.day_weather,
-    temperature: getTemperature(data.condition.min_degree, data.condition.max_degree),
-    winddirection: data.condition.day_wind_direction,
-    windpower: data.condition.day_wind_power,
-  };
-};
+// const getOW = async () => {
+//   const result = await getOtherWeather();
+//   const data = result.result;
+//   weatherData.adCode = {
+//     city: data.city.City || "未知地区",
+//     adcode: null
+//   };
+//   weatherData.weather = {
+//     weather: data.condition.day_weather,
+//     temperature: getTemperature(data.condition.min_degree, data.condition.max_degree),
+//     winddirection: data.condition.day_wind_direction,
+//     windpower: data.condition.day_wind_power,
+//   };
+// };
 
-const getHXHW = async () => {
-  const result = await getHXHWeather();
-  if (String(result?.success) !== "true") {
-    // if (store.webSpeech) {
-    //   stopSpeech();
-    //   const voice = envConfig.VITE_TTS_Voice;
-    //   const vstyle = envConfig.VITE_TTS_Style;
-    //   SpeechLocal("天气加载失败.mp3");
-    // };
-    throw "天气信息获取失败";
-  };
-  weatherData.adCode = {
-    city: result.city || "未知地区",
-    adcode: null
-  };
-  weatherData.weather = {
-    weather: result.data.type || result.data.night.type,
-    temperature: getTemperature(result.data.low || result.data.night.low, result.data.high || result.data.night.high),
-    winddirection: result.data.fengxiang || result.data.night.fengxiang,
-    windpower: (!result.data.fengli || result.data.fengli.trim() === '级') ? result.data.night?.fengli || '未知' : result.data.fengli,
-  };
-};
+// const getHXHW = async () => {
+//   const result = await getHXHWeather();
+//   if (String(result?.success) !== "true") {
+//     // if (store.webSpeech) {
+//     //   stopSpeech();
+//     //   const voice = envConfig.VITE_TTS_Voice;
+//     //   const vstyle = envConfig.VITE_TTS_Style;
+//     //   SpeechLocal("天气加载失败.mp3");
+//     // };
+//     throw "天气信息获取失败";
+//   };
+//   weatherData.adCode = {
+//     city: result.city || "未知地区",
+//     adcode: null
+//   };
+//   weatherData.weather = {
+//     weather: result.data.type || result.data.night.type,
+//     temperature: getTemperature(result.data.low || result.data.night.low, result.data.high || result.data.night.high),
+//     winddirection: result.data.fengxiang || result.data.night.fengxiang,
+//     windpower: (!result.data.fengli || result.data.fengli.trim() === '级') ? result.data.night?.fengli || '未知' : result.data.fengli,
+//   };
+// };
 
-const getXMW = async () => {
-  const xmw = await getXMWT();
-  if (!xmw) {
-    throw "天气信息获取失败";
-  } else {
-    weatherData.adCode = xmw.adCode;
-    weatherData.weather = xmw.weather;
-  };
-};
+// const getXMW = async () => {
+//   const xmw = await getXMWT();
+//   if (!xmw) {
+//     throw "天气信息获取失败";
+//   } else {
+//     weatherData.adCode = xmw.adCode;
+//     weatherData.weather = xmw.weather;
+//   };
+// };
 
 // 获取天气数据
 const getWeatherData = async () => {
@@ -307,15 +307,15 @@ const getWeatherData = async () => {
     // 获取地理位置信息
     if (!gdkey && !txkey) {
       console.log("未配置天气接口密钥，使用备用天气接口");
-      try {
-        await getXMW();
-      } catch (error) {
-        try {
-          await getHXHW();
-        } catch (error) {
-          await getOW();
-        };
-      };
+      // try {
+      //   await getXMW();
+      // } catch (error) {
+      //   try {
+      //     await getHXHW();
+      //   } catch (error) {
+      //     await getOW();
+      //   };
+      // };
     } else if (!txkey) {
       // 调用高德天气 API
       console.log("正在使用高德天气接口");
@@ -323,15 +323,15 @@ const getWeatherData = async () => {
         await getGDW();
       } catch (error) {
         console.error("高德天气接口获取失败，尝试调用备用接口");
-        try {
-          await getXMW();
-        } catch (error) {
-          try {
-            await getHXHW();
-          } catch (error) {
-            await getOW();
-          };
-        };
+        // try {
+        //   await getXMW();
+        // } catch (error) {
+        //   try {
+        //     await getHXHW();
+        //   } catch (error) {
+        //     await getOW();
+        //   };
+        // };
       };
     } else {
       // 调用腾讯天气 API
@@ -343,15 +343,15 @@ const getWeatherData = async () => {
           await getGDW();
         } catch (error) {
           console.error("高德天气接口获取失败，尝试调用备用接口");
-          try {
-            await getXMW();
-          } catch (error) {
-            try {
-              await getHXHW();
-            } catch (error) {
-              await getOW();
-            };
-          };
+          // try {
+          //   await getXMW();
+          // } catch (error) {
+          //   try {
+          //     await getHXHW();
+          //   } catch (error) {
+          //     await getOW();
+          //   };
+          // };
         };
       };
     };
