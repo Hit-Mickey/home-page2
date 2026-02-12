@@ -110,7 +110,7 @@ if (!import.meta.env.VITE_CONFIG_TURN || import.meta.env.VITE_CONFIG_TURN != "tr
   但是看到确实有用户修改后，思考了一阵，这好像和 MIT 开源文化有冲突...且 MIT 本身也就允许倒卖这种行为叭..（
   最后..还是决定将这里的完全不运行改成显示提示后继续正常工作，更合理些叭...理解万岁！
   另外，也请求各位不要随意移除原作者信息，谢谢！ */
-  if (config.author != 'imsyy' || config.efua != 'NanoRocky') {
+  if (config.author != 'imsyy' || config.efua != 'mickey') {
     console.warn(`Warning: Somethings error ... , The original author information for this project has been modified. If this was not done by you, please delete the file and download the project code package again. If this was done by you, please do not modify or remove the original author information. Thank you! Of course, you can also choose to ignore this message.`);
     console.log('Original repository link: https://github.com/NanoRocky/home/blob/EFU/');
     mountApp();

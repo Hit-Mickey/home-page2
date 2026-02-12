@@ -1,128 +1,172 @@
 <template>
-  <div v-if="siteLinks[0]" class="links">
-    <div class="line">
-      <Icon size="20" class="iconl">
-        <Link />
-      </Icon>
-      <span class="title text-truncate-ellipsis" v-if="store.mobileOpenState"
-        @click="store.setOpenState = !store.setOpenState">网站列表</span>
-      <span class="title" v-else>网站列表</span>
+  <div class="links">
+    <div class="content-wrapper">
+
+      <div v-if="homeLinksList.length > 0" class="section-wrapper">
+        <div class="line">
+          <Icon size="20">
+            <Home />
+          </Icon>
+          <span class="title">家庭服务器</span>
+        </div>
+
+        <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
+          :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
+          <SwiperSlide v-for="(page, index) in homeLinksList" :key="'home-' + index">
+            <el-row class="link-all" :gutter="20" justify="center">
+              <el-col v-for="item in page" :span="8" :key="item.name">
+                <LinkItem :item="item" />
+              </el-col>
+            </el-row>
+          </SwiperSlide>
+        </Swiper>
+      </div>
+
+      <div v-if="cloudLinksList.length > 0" class="section-wrapper">
+        <div class="line">
+          <Icon size="20">
+            <Cloud />
+          </Icon>
+          <span class="title">雨云服务器</span>
+        </div>
+
+        <Swiper :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
+          :pagination="{ clickable: true, bulletElement: 'div' }" :mousewheel="true" class="my-swiper">
+          <SwiperSlide v-for="(page, index) in cloudLinksList" :key="'cloud-' + index">
+            <el-row class="link-all" :gutter="20" justify="center">
+              <el-col v-for="item in page" :span="8" :key="item.name">
+                <LinkItem :item="item" />
+              </el-col>
+            </el-row>
+          </SwiperSlide>
+        </Swiper>
+      </div>
+
     </div>
-    <!-- 网站列表 -->
-    <Swiper v-if="siteLinks[0]" :modules="[Pagination, Mousewheel]" :slides-per-view="1" :space-between="40"
-      :pagination="{
-        el: '.swiper-pagination',
-        clickable: true,
-        bulletElement: 'div',
-      }" :mousewheel="true">
-      <SwiperSlide v-for="(site, siteIndex) in siteLinksList" :key="'site-' + siteIndex">
-        <el-row class="link-all" :gutter="20">
-          <el-col v-for="(item, index) in site" :span="8" :key="'item-' + index">
-            <div class="item cards" :style="index < 3 ? 'margin-bottom: 20px' : null" @click="jumpLink(item)">
-              <Icon size="26">
-                <component :is="siteIcon[item.icon]" />
-              </Icon>
-              <span class="name text-truncate-ellipsis">{{ item.name }}</span>
-            </div>
-          </el-col>
-        </el-row>
-      </SwiperSlide>
-      <div class="swiper-pagination" />
-    </Swiper>
   </div>
 </template>
 
-<script setup lang="ts">
-import { Icon } from "@vicons/utils";
+<script setup>
+import { computed, defineComponent, h } from "vue";
 // 可前往 https://www.xicons.org 自行挑选并在此处引入
-import { Link, Blog, CompactDisc, Cloud, Compass, Book, Fire, LaptopCode } from "@vicons/fa"; // 注意使用正确的类别
+// 此处引入的是 fa 类型
+import { Icon } from "@vicons/utils";
+import {
+  Link, Blog, CompactDisc, Cloud, Compass, Book, Fire, LaptopCode, Home
+} from "@vicons/fa";
 import { mainStore } from "@/store";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Mousewheel } from "swiper/modules";
-import siteLinks from "@/assets/siteLinks.json";
+import siteLinksData from "@/assets/siteLinks.json";
 
 const store = mainStore();
-const siteLinksData = siteLinks as SiteLink[];
-declare const $openList: () => void;
 
-interface SiteLink {
-  icon: keyof typeof siteIcon;
-  name: string;
-  link: string;
-}
+const siteIcon = {
+  Blog, Cloud, CompactDisc, Compass, Book, Fire, LaptopCode, Home
+};
 
-// 计算网站链接
-const siteLinksList = computed(() => {
-  const result: SiteLink[][] = [];
-  for (let i = 0; i < siteLinksData.length; i += 6) {
-    result.push(siteLinksData.slice(i, i + 6));
-  };
-  return result;
+// --- 子组件 ---
+const LinkItem = defineComponent({
+  props: ['item'],
+  setup(props) {
+    const jumpLink = (data) => {
+      if (data.name === "音乐" && store.musicClick) {
+        if (typeof $openList === "function") $openList();
+      } else {
+        window.open(data.link, "_blank");
+      }
+    };
+
+    return () => h('div', { class: 'item cards', onClick: () => jumpLink(props.item) }, [
+      h('div', { class: 'main-content' }, [
+        h(Icon, { size: 26 }, () => h(siteIcon[props.item.icon] || Link)),
+        h('span', { class: 'name text-hidden' }, props.item.name)
+      ]),
+      h('div', { class: 'network-tags' }, [
+        props.item.ipv6 ? h('a', { href: props.item.ipv6, target: '_blank', class: 'tag ipv6', onClick: (e) => e.stopPropagation() }, 'v6') : null,
+        props.item.ipv4 ? h('a', { href: props.item.ipv4, target: '_blank', class: 'tag ipv4', onClick: (e) => e.stopPropagation() }, 'v4') : null,
+        props.item.vlan ? h('a', { href: props.item.vlan, target: '_blank', class: 'tag vlan', onClick: (e) => e.stopPropagation() }, 'VLAN') : null,
+        props.item.lan ? h('a', { href: props.item.lan, target: '_blank', class: 'tag lan', onClick: (e) => e.stopPropagation() }, '内网') : null,
+      ])
+    ]);
+  }
 });
 
-// 网站链接图标
-const siteIcon = {
-  Blog,
-  Cloud,
-  CompactDisc,
-  Compass,
-  Book,
-  Fire,
-  LaptopCode,
+const chunkData = (arr) => {
+  const result = [];
+  if (!arr) return result;
+  for (let i = 0; i < arr.length; i += 6) {
+    result.push(arr.slice(i, i + 6));
+  }
+  return result;
 };
 
-// 链接跳转
-const jumpLink = (data: SiteLink) => {
-  if (data.name === "音乐" && store.musicClick && store.musicIsOk) {
-    store.musicBoxOpenState = !store.musicBoxOpenState;
-    return;
-  } else {
-    window.open(data.link, "_blank");
-  };
-};
+const homeLinksList = computed(() => chunkData(siteLinksData.home));
+const cloudLinksList = computed(() => chunkData(siteLinksData.cloud));
 </script>
 
 <style lang="scss" scoped>
 .links {
+  // 修改1：使用 calc 计算高度，减去顶部和底部预留高度(约160px)
+  // 这样能确保 .links 容器真的位于屏幕中间区域
+  height: calc(100vh - 160px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // 垂直居中
+  align-items: center; // 水平居中
+
+  // 移动端适配
+  @media (max-width: 720px) {
+    height: auto;
+    margin-top: 20px;
+    display: block;
+  }
+
+  // 新增：包裹层宽度控制
+  .content-wrapper {
+    width: 100%;
+  }
+
+  .section-wrapper {
+    margin-bottom: 20px; // 版块间距
+    width: 100%;
+
+    // 如果是最后一个版块，去掉底部间距，让居中更精确
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   .line {
-    margin: 2rem 0.25rem 1rem;
+    margin: 0 0.25rem 0.5rem; // 减小标题的上下间距
     font-size: 1.1rem;
     display: flex;
     align-items: center;
     animation: fade 0.5s;
-    color: rgba(245, 245, 245, 1);
-
-    .iconl {
-      color: rgba(245, 245, 245, 1);
-    }
 
     .title {
       margin-left: 8px;
       font-size: 1.15rem;
-      text-shadow: 0 0 5px rgba(15, 15, 15, 0.6);
-      color: rgba(245, 245, 245, 1);
+      text-shadow: 0 0 5px #00000050;
     }
   }
 
   .swiper {
-    left: -10px;
-    width: calc(100% + 20px);
-    padding: 5px 10px 0;
+    width: 100%;
+    padding: 0 10px; // 稍微给点内边距
     z-index: 0;
 
-    .swiper-slide {
-      height: 100%;
-    }
-
     .swiper-pagination {
-      margin-top: 12px;
+      position: relative;
+      margin-top: 10px;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
 
       :deep(.swiper-pagination-bullet) {
-        background-color: rgba(245, 245, 245, 1);
+        background-color: #fff;
         width: 20px;
         height: 4px;
         margin: 0 4px;
@@ -141,32 +185,85 @@ const jumpLink = (data: SiteLink) => {
     }
   }
 
+  // 修改2：彻底移除固定高度，改为自适应
   .link-all {
-    height: 220px;
+    height: auto !important; // 强制高度自适应
+    min-height: 0; // 清除最小高度
 
-    .item {
-      height: 100px;
+    // 内容垂直居中
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; // 图标水平居中
+
+    :deep(.item) {
+      height: 110px;
       width: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      flex-direction: row;
       justify-content: center;
-      padding: 0 10px;
+      padding: 6px 10px;
       animation: fade 0.5s;
+      position: relative;
+      margin-bottom: 15px; // 适度调整卡片下方的间距
 
       &:hover {
         transform: scale(1.02);
-        background: var(--link-card-hover-color);
+        background: rgb(0 0 0 / 40%);
         transition: 0.3s;
       }
 
-      &:active {
-        transform: scale(1);
+      .main-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        cursor: pointer;
+        margin-bottom: 8px;
+
+        .name {
+          font-size: 1.1rem;
+          margin-left: 8px;
+        }
       }
 
-      .name {
-        font-size: 1.1rem;
-        margin-left: 8px;
+      .network-tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+
+        .tag {
+          font-size: 12px; // 推荐 12px，如果一定要大字体再改成 14px 或 16px
+          padding: 2px 6px;
+          border-radius: 4px;
+          text-decoration: none;
+          color: #fff;
+          font-weight: bold;
+          transition: opacity 0.2s;
+          line-height: 1.2;
+
+          &:hover {
+            opacity: 0.8;
+          }
+
+          // &.ipv6 {
+          //   background-color: #67c23a;
+          // }
+
+          // &.ipv4 {
+          //   background-color: #409eff;
+          // }
+
+          // &.vlan {
+          //   background-color: #e6a23c;
+          // }
+
+          // &.lan {
+          //   background-color: #909399;
+          // }
+        }
       }
 
       @media (min-width: 720px) and (max-width: 820px) {
@@ -176,22 +273,24 @@ const jumpLink = (data: SiteLink) => {
       }
 
       @media (max-width: 720px) {
-        height: 80px;
+        height: 100px;
+
+        .main-content {
+          margin-bottom: 4px;
+        }
       }
 
       @media (max-width: 460px) {
-        flex-direction: column;
+        .main-content {
+          flex-direction: column;
 
-        .name {
-          font-size: 1rem;
-          margin-left: 0;
-          margin-top: 8px;
+          .name {
+            font-size: 1rem;
+            margin-left: 0;
+            margin-top: 4px;
+          }
         }
       }
-    }
-
-    @media (max-width: 720px) {
-      height: 180px;
     }
   }
 }

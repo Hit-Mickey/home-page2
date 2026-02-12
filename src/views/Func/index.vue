@@ -1,12 +1,11 @@
 <template>
-  <!-- 功能区域 -->
   <div :class="store.mobileFuncState ? 'function mobile' : 'function'">
     <el-row :gutter="20">
       <el-col :span="12">
-        <div class="left">
+        <!-- <div class="left">
           <Hitokoto />
           <Music v-if="playerHasId" />
-        </div>
+        </div> -->
       </el-col>
       <el-col :span="12">
         <div class="right cards">
@@ -28,61 +27,49 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+<script setup>
 import { getCurrentTime } from "@/utils/getTime";
 import { mainStore } from "@/store";
-import Music from "@/components/Music.vue";
+// import Music from "@/components/Music.vue";
 import Hitokoto from "@/components/Hitokoto.vue";
 import Weather from "@/components/Weather.vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const store = mainStore();
 
-interface CurrentTime {
-  year: number;
-  month: number;
-  day: number;
-  weekday: string;
-  hour: number;
-  minute: number;
-  second: number;
-};
-
 // 当前时间
-const currentTime = ref < CurrentTime > ({
-  year: 0,
-  month: 0,
-  day: 0,
-  weekday: "",
-  hour: 0,
-  minute: 0,
-  second: 0,
-});
-const timeInterval = ref < number | null > (null);
+const currentTime = ref({});
+const timeInterval = ref(null);
 
 // 播放器 id
-const playerHasId = envConfig.VITE_SONG_ID;
+// const playerHasId = import.meta.env.VITE_SONG_ID;
 
 // 更新时间
 const updateTimeData = () => {
-  Object.assign(currentTime.value, getCurrentTime());
+  currentTime.value = getCurrentTime();
 };
 
 onMounted(() => {
   updateTimeData();
-  timeInterval.value = setInterval(updateTimeData, 1000) as unknown as number;
+  timeInterval.value = setInterval(updateTimeData, 1000);
 });
 
 onBeforeUnmount(() => {
-  if (timeInterval.value !== null) {
-    clearInterval(timeInterval.value);
-  };
+  clearInterval(timeInterval.value);
 });
 </script>
 
 <style lang="scss" scoped>
 .function {
-  height: 165px;
+  // --- 修改 1: 移除固定高度 165px，改为自适应 ---
+  height: auto;
+
+  // --- 修改 2: 使用 margin-top 让模块整体下移 (数值可根据需要调整) ---
+  margin-top: 25vh;
+
+  // --- 修改 3: 压缩模块底部的外边距，缩短与下方服务器模块的间隔 ---
+  margin-bottom: -100px;
+
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -103,7 +90,6 @@ onBeforeUnmount(() => {
   }
 
   .el-row {
-    height: 100%;
     width: 100%;
     margin: 0 !important;
 
@@ -137,11 +123,16 @@ onBeforeUnmount(() => {
     }
 
     .right {
-      padding: 20px;
+      // --- 修改 4: 缩小内边距，让卡片更紧凑 ---
+      padding: 15px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+
+      // --- 修改 5: 进一步缩小时钟和天气文字之间的间距 ---
+      gap: 10px;
+
       animation: fade 0.5s;
 
       .time {
@@ -155,7 +146,8 @@ onBeforeUnmount(() => {
         }
 
         .text {
-          margin-top: 10px;
+          // --- 修改 6: 稍微减小数字字体的间距 ---
+          margin-top: 5px;
           font-size: 3.25rem;
           letter-spacing: 2px;
           font-family: "UnidreamLED";
