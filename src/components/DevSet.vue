@@ -1,7 +1,7 @@
 <template>
     <div class="devsettings">
         <el-collapse class="collapse" v-model="activeName" accordion>
-            <el-collapse-item title="季节特效" name="1">
+            <!-- <el-collapse-item title="季节特效" name="1">
                 <div class="item">
                     <el-button plain class="el-button" :class="{ 'active': store.showSnowfall }"
                         @click="toggleEffect('snow')">{{ store.showSnowfall ? "禁用" : "启用" }}冬日飘雪</el-button>
@@ -10,7 +10,7 @@
                     <el-button plain class="el-button" :class="{ 'active': store.showLantern }"
                         @click="toggleEffect('lantern')">{{ store.showLantern ? "禁用" : "启用" }}春节灯笼</el-button>
                 </div>
-            </el-collapse-item>
+            </el-collapse-item> -->
             <el-collapse-item title="壁纸调整" name="2">
                 <div class="item">
                     <div class="upver">使用内置壁纸时临时指定壁纸</div>
