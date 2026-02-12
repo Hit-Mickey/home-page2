@@ -18,9 +18,9 @@
 import { mainStore } from "@/store";
 import { Error } from "@icon-park/vue-next";
 import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
-import { initSnowfall, closeSnowfall } from "@/utils/season/snow";
-import { initFirefly, closeFirefly } from "@/utils/season/firefly";
-import { initLantern, closeLantern } from "@/utils/season/lantern";
+// import { initSnowfall, closeSnowfall } from "@/utils/season/snow";
+// import { initFirefly, closeFirefly } from "@/utils/season/firefly";
+// import { initLantern, closeLantern } from "@/utils/season/lantern";
 import { ref, h } from 'vue';
 import { gasC } from "@/utils/authServer";
 
@@ -267,66 +267,66 @@ watch(
   { immediate: true }
 );
 
-const SeasonStyle = async (type, state, where) => {
-  const month = new Date().getMonth() + 1; // 当前月份，1-12
-  if (type == 0) {
-    if (sest == 1 && state == true && where == 'normal') return;
-    if ([12, 1, 2].includes(month)) {
-      if (state == true) {
-        initSnowfall();
-      } else if (state == false) {
-        closeSnowfall();
-      } else {
-        return;
-      };
-    };
-    if ([1, 2].includes(month)) {
-      if (state == true) {
-        initLantern();
-      } else if (state == false) {
-        closeLantern();
-      } else {
-        return;
-      };
-    };
-    if ([7, 8, 9].includes(month)) {
-      if (state == true) {
-        initFirefly();
-      } else if (state == false) {
-        closeFirefly();
-      } else {
-        return;
-      };
-    };
-  } else if (type == 1) {
-    if (state == true) {
-      initSnowfall();
-    } else if (state == false) {
-      closeSnowfall();
-    } else {
-      return;
-    };
-  } else if (type == 2) {
-    if (state == true) {
-      initLantern();
-    } else if (state == false) {
-      closeLantern();
-    } else {
-      return;
-    };
-  } else if (type == 3) {
-    if (state == true) {
-      initFirefly();
-    } else if (state == false) {
-      closeFirefly();
-    } else {
-      return;
-    };
-  } else {
-    return;
-  };
-  sest = 1;
-};
+// const SeasonStyle = async (type, state, where) => {
+//   const month = new Date().getMonth() + 1; // 当前月份，1-12
+//   if (type == 0) {
+//     if (sest == 1 && state == true && where == 'normal') return;
+//     if ([12, 1, 2].includes(month)) {
+//       if (state == true) {
+//         initSnowfall();
+//       } else if (state == false) {
+//         closeSnowfall();
+//       } else {
+//         return;
+//       };
+//     };
+//     if ([1, 2].includes(month)) {
+//       if (state == true) {
+//         // initLantern();
+//       } else if (state == false) {
+//         closeLantern();
+//       } else {
+//         return;
+//       };
+//     };
+//     if ([7, 8, 9].includes(month)) {
+//       if (state == true) {
+//         initFirefly();
+//       } else if (state == false) {
+//         closeFirefly();
+//       } else {
+//         return;
+//       };
+//     };
+//   } else if (type == 1) {
+//     if (state == true) {
+//       initSnowfall();
+//     } else if (state == false) {
+//       closeSnowfall();
+//     } else {
+//       return;
+//     };
+//   } else if (type == 2) {
+//     if (state == true) {
+//       initLantern();
+//     } else if (state == false) {
+//       closeLantern();
+//     } else {
+//       return;
+//     };
+//   } else if (type == 3) {
+//     if (state == true) {
+//       initFirefly();
+//     } else if (state == false) {
+//       closeFirefly();
+//     } else {
+//       return;
+//     };
+//   } else {
+//     return;
+//   };
+//   sest = 1;
+// };
 
 // 定时切换壁纸功能
 const setupAutoSwitch = () => {
@@ -366,7 +366,7 @@ onMounted(async () => {
   // 加载壁纸
   await changeBg(Number(store.coverType));
   // 加载季节特效
-  if (store.seasonalEffects) { await SeasonStyle(0, true, 'normal') } else { sest = 1 };
+  // if (store.seasonalEffects) { await SeasonStyle(0, true, 'normal') } else { sest = 1 };
   // 启动定时切换
   setupAutoSwitch();
 });
@@ -380,17 +380,17 @@ onBeforeUnmount(() => {
   };
 });
 
-watch(() => store.seasonalEffects, async (value) => {
-  if (sest == 0) return;
-  if (value) {
-    await SeasonStyle(0, true, 'userChange');
-  } else {
-    await SeasonStyle(0, false, 'userChange');
-    await SeasonStyle(1, false, 'userChange');
-    await SeasonStyle(2, false, 'userChange');
-    await SeasonStyle(3, false, 'userChange');
-  };
-});
+// watch(() => store.seasonalEffects, async (value) => {
+//   if (sest == 0) return;
+//   if (value) {
+//     await SeasonStyle(0, true, 'userChange');
+//   } else {
+//     await SeasonStyle(0, false, 'userChange');
+//     await SeasonStyle(1, false, 'userChange');
+//     await SeasonStyle(2, false, 'userChange');
+//     await SeasonStyle(3, false, 'userChange');
+//   };
+// });
 
 watch(() => store.sBGCount, async (value) => {
   if (store.coverType != 0 || value == null || value == 0) return;

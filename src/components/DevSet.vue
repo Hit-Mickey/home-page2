@@ -72,9 +72,9 @@ import { CheckSmall, CloseSmall, SuccessPicture } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
-import { initSnowfall, closeSnowfall } from "@/utils/season/snow";
-import { initFirefly, closeFirefly } from "@/utils/season/firefly";
-import { initLantern, closeLantern } from "@/utils/season/lantern";
+// import { initSnowfall, closeSnowfall } from "@/utils/season/snow";
+// import { initFirefly, closeFirefly } from "@/utils/season/firefly";
+// import { initLantern, closeLantern } from "@/utils/season/lantern";
 import { parseVersion } from "@/utils/ver";
 import { checkForUpdate } from "@/utils/updatecheck";
 import config from "@/../package.json";
@@ -159,19 +159,19 @@ const checkUpdate = async () => {
     };
 };
 
-const toggleEffect = (type: 'snow' | 'firefly' | 'lantern') => {
-    switch (type) {
-        case 'snow':
-            store.showSnowfall ? closeSnowfall() : initSnowfall();
-            break;
-        case 'firefly':
-            store.showFirefly ? closeFirefly() : initFirefly();
-            break;
-        case 'lantern':
-            store.showLantern ? closeLantern() : initLantern();
-            break;
-    }
-};
+// const toggleEffect = (type: 'snow' | 'firefly' | 'lantern') => {
+//     switch (type) {
+//         case 'snow':
+//             store.showSnowfall ? closeSnowfall() : initSnowfall();
+//             break;
+//         case 'firefly':
+//             store.showFirefly ? closeFirefly() : initFirefly();
+//             break;
+//         case 'lantern':
+//             store.showLantern ? closeLantern() : initLantern();
+//             break;
+//     }
+// };
 
 const form = reactive({
     wallpaperId: ''
