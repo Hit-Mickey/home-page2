@@ -96,7 +96,7 @@ const {
     playerDWRCATDB,
     playerDWRCATDBF,
     footerProgressBar,
-    seasonalEffects,
+    // seasonalEffects,
     setV,
     theme,
     msgNameShow,
