@@ -71,7 +71,7 @@ import { ref, reactive } from 'vue'
 import { CheckSmall, CloseSmall, SuccessPicture } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 import { storeToRefs } from "pinia";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 // import { initSnowfall, closeSnowfall } from "@/utils/season/snow";
 // import { initFirefly, closeFirefly } from "@/utils/season/firefly";
 // import { initLantern, closeLantern } from "@/utils/season/lantern";
@@ -89,8 +89,8 @@ const {
     playerAutoplay,
     playerOrder,
     playerLoop,
-    webSpeech,
-    playerSpeechName,
+    // webSpeech,
+    // playerSpeechName,
     playerDWRCShow,
     playerDWRCShowPro,
     playerDWRCATDB,
@@ -128,34 +128,34 @@ const checkUpdate = async () => {
             message: `当前已是最新版本！ v${versionInfo.version} ， ${versionInfo.type} 。`,
             grouping: true,
         });
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("检查更新-已是最新版本.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("检查更新-已是最新版本.mp3");
+        // };
     } else if (updinfo.status == 'false') {
         ElMessage({
             message: `发现新版本 v${updinfo.latestVersion}，${updinfo.isPreview == 'true' ? "预览版" : "正式版"}，${updinfo.versionType} ，快来体验吧！`,
             grouping: true,
         });
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("检查更新-发现新版本.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("检查更新-发现新版本.mp3");
+        // };
     } else {
         ElMessage({
             message: `版本检测异常，稍后再试试叭~`,
             grouping: true,
         });
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("检查更新-检测异常.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("检查更新-检测异常.mp3");
+        // };
     };
 };
 
@@ -184,78 +184,78 @@ const resetSettings = () => {
             dangerouslyUseHTMLString: true,
             message: `正在恢复默认配置，请稍后...`,
         });
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("重置2.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("重置2.mp3");
+        // };
         store.resetStore();
     } else if (chuores > 3) {
         ElMessage({
             dangerouslyUseHTMLString: true,
             message: `正在加载初始设置，请稍后...`,
         });
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("重置3.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("重置3.mp3");
+        // };
     } else {
         ElMessage({
             dangerouslyUseHTMLString: true,
             message: `确定要重置所有设置吗？操作将在点击 3 次后执行。`,
         });
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("重置1.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("重置1.mp3");
+        // };
     };
 };
 
 const handleSetWallpaper = () => {
     if (store.coverType != 0) {
         ElMessage.error('当前使用非内置壁纸，不支持该功能！');
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("壁纸ID设置失败.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("壁纸ID设置失败.mp3");
+        // };
         return;
     };
     if (!form.wallpaperId.trim()) {
         ElMessage.error('壁纸号不能为空！');
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("壁纸ID设置失败.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("壁纸ID设置失败.mp3");
+        // };
         return;
     };
     if (!/^\d+$/.test(form.wallpaperId)) {
         ElMessage.error('壁纸号必须为纯数字！');
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("壁纸ID设置失败.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("壁纸ID设置失败.mp3");
+        // };
         return;
     };
     const wallpaperId = parseInt(form.wallpaperId, 10);
     store.setSBGCount(Number(wallpaperId));
     ElMessage.success(`已设置壁纸ID: ${wallpaperId}`);
-    if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("壁纸ID设置成功.mp3");
-    };
+    // if (store.webSpeech) {
+    //     stopSpeech();
+    //     const voice = envConfig.VITE_TTS_Voice;
+    //     const vstyle = envConfig.VITE_TTS_Style;
+    //     SpeechLocal("壁纸ID设置成功.mp3");
+    // };
     form.wallpaperId = '';
 };
 </script>

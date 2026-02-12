@@ -11,7 +11,7 @@ import { getPlayerList, testGitHubConnectivity } from "@/api";
 import { mainStore } from "@/store";
 import APlayer from "@worstone/vue-aplayer";
 import type { APlayer as APlayerType } from '@worstone/vue-aplayer';
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 import { decodeDWQYRC } from "@/utils/decodeDWQYRC";
 import { alignPilferedLyrics } from "@/utils/checkPilferDWRC";
 
@@ -171,12 +171,12 @@ onMounted(() => {
           fill: "var(--music-aplayer-message-icon-color)",
         }),
       });
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("播放器加载失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("播放器加载失败.mp3");
+      // };
     };
   });
 });
@@ -220,22 +220,22 @@ const onPlay = () => {
     updatePositionState();
   };
 
-  if (store.webSpeech) {
-    if (store.playerSpeechName) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      Speech(
-        "正在播放，“" +
-        store.getPlayerData.artist +
-        "”的歌曲，《" +
-        store.getPlayerData.name +
-        "》。",
-        voice,
-        vstyle,
-      );
-    };
-  };
+  // if (store.webSpeech) {
+  //   if (store.playerSpeechName) {
+  //     stopSpeech();
+  //     const voice = envConfig.VITE_TTS_Voice;
+  //     const vstyle = envConfig.VITE_TTS_Style;
+  //     Speech(
+  //       "正在播放，“" +
+  //       store.getPlayerData.artist +
+  //       "”的歌曲，《" +
+  //       store.getPlayerData.name +
+  //       "》。",
+  //       voice,
+  //       vstyle,
+  //     );
+  //   };
+  // };
 };
 
 // 开始播放处理
@@ -329,20 +329,20 @@ const loadMusicError = () => {
   let notice = "";
   if (playList.value.length > 1) {
     notice = "播放歌曲出现错误，播放器将在 2s 后进行下一首";
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("歌曲加载失败.mp3");
-    };
+    // if (store.webSpeech) {
+    //   stopSpeech();
+    //   const voice = envConfig.VITE_TTS_Voice;
+    //   const vstyle = envConfig.VITE_TTS_Style;
+    //   SpeechLocal("歌曲加载失败.mp3");
+    // };
   } else {
     notice = "播放歌曲出现错误";
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("播放器未知异常.mp3");
-    };
+    // if (store.webSpeech) {
+    //   stopSpeech();
+    //   const voice = envConfig.VITE_TTS_Voice;
+    //   const vstyle = envConfig.VITE_TTS_Style;
+    //   SpeechLocal("播放器未知异常.mp3");
+    // };
   };
   ElMessage({
     message: notice,

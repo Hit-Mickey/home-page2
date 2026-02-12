@@ -43,7 +43,7 @@ import Box from "@/views/Box/index.vue";
 import MoreSet from "@/views/MoreSet/index.vue";
 import cursorInit from "@/utils/cursor.js";
 import config from "@/../package.json";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 import { getColor } from "@/utils/getColor";
 
 const store = mainStore();
@@ -147,12 +147,12 @@ onMounted(() => {
       grouping: true,
       duration: 2000,
     });
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("鼠标右键.mp3");
-    };
+    // if (store.webSpeech) {
+    //   stopSpeech();
+    //   const voice = envConfig.VITE_TTS_Voice;
+    //   const vstyle = envConfig.VITE_TTS_Style;
+    //   SpeechLocal("鼠标右键.mp3");
+    // };
     return false;
   };
 
@@ -164,19 +164,19 @@ onMounted(() => {
         message: `已${store.backgroundShow ? "开启" : "退出"}壁纸展示状态`,
         grouping: true,
       });
-      if (store.webSpeech) {
-        if (store.backgroundShow) {
-          stopSpeech();
-          const voice = envConfig.VITE_TTS_Voice;
-          const vstyle = envConfig.VITE_TTS_Style;
-          SpeechLocal("壁纸预览已启用.mp3");
-        } else {
-          stopSpeech();
-          const voice = envConfig.VITE_TTS_Voice;
-          const vstyle = envConfig.VITE_TTS_Style;
-          SpeechLocal("壁纸预览已退出.mp3");
-        };
-      };
+      // if (store.webSpeech) {
+      //   if (store.backgroundShow) {
+      //     stopSpeech();
+      //     const voice = envConfig.VITE_TTS_Voice;
+      //     const vstyle = envConfig.VITE_TTS_Style;
+      //     SpeechLocal("壁纸预览已启用.mp3");
+      //   } else {
+      //     stopSpeech();
+      //     const voice = envConfig.VITE_TTS_Voice;
+      //     const vstyle = envConfig.VITE_TTS_Style;
+      //     SpeechLocal("壁纸预览已退出.mp3");
+      //   };
+      // };
     }
   });
 

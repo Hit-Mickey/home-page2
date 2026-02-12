@@ -32,10 +32,10 @@
           <span class="text">音乐点击是否打开面板</span>
           <el-switch v-model="musicClick" inline-prompt :active-icon="CheckSmall" :inactive-icon="CloseSmall" />
         </div>
-        <div class="item">
+        <!-- <div class="item">
           <span class="text">显示季节特效</span>
           <el-switch v-model="seasonalEffects" inline-prompt :active-icon="CheckSmall" :inactive-icon="CloseSmall" />
-        </div>
+        </div> -->
         <div class="item">
           <span class="text">底栏背景模糊</span>
           <el-switch v-model="footerBlur" inline-prompt :active-icon="CheckSmall" :inactive-icon="CloseSmall" />
@@ -99,7 +99,7 @@
           <el-switch v-model="playerTrLrc" inline-prompt :active-icon="CheckSmall" :inactive-icon="CloseSmall" />
         </div>
       </el-collapse-item>
-      <el-collapse-item title="语音设置" name="6">
+      <!-- <el-collapse-item title="语音设置" name="6">
         <div class="item">
           <span class="text">网页语音交互总开关</span>
           <el-switch v-model="webSpeech" inline-prompt :active-icon="CheckSmall" :inactive-icon="CloseSmall" />
@@ -108,7 +108,7 @@
           <span class="text">播报歌名</span>
           <el-switch v-model="playerSpeechName" inline-prompt :active-icon="CheckSmall" :inactive-icon="CloseSmall" />
         </div>
-      </el-collapse-item>
+      </el-collapse-item> -->
       <el-collapse-item title="其他设置" name="7">
         <div class="text">暂时没有其它啦qwq</div>
       </el-collapse-item>
@@ -125,7 +125,7 @@ import DevSet from "@/components/DevSet.vue";
 import { mainStore } from "@/store";
 import { storeToRefs } from "pinia";
 import config from "@/../package.json";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 
 const store = mainStore();
 const {
@@ -137,8 +137,8 @@ const {
   playerAutoplay,
   playerOrder,
   playerLoop,
-  webSpeech,
-  playerSpeechName,
+  // webSpeech,
+  // playerSpeechName,
   playerTrLrc,
   playerDWRCShow,
   playerDWRCShowPro,
@@ -147,7 +147,7 @@ const {
   playerDWRCPilfer,
   playerRMMetadata,
   footerProgressBar,
-  seasonalEffects,
+  // seasonalEffects,
   setV,
   theme,
   msgNameShow,
@@ -165,12 +165,12 @@ const radioChange = () => {
       fill: "var(--el-message-icon-color)",
     }),
   });
-  if (store.webSpeech) {
-    stopSpeech();
-    const voice = envConfig.VITE_TTS_Voice;
-    const vstyle = envConfig.VITE_TTS_Style;
-    SpeechLocal("更换壁纸成功.mp3");
-  };
+  // if (store.webSpeech) {
+  //   stopSpeech();
+  //   const voice = envConfig.VITE_TTS_Voice;
+  //   const vstyle = envConfig.VITE_TTS_Style;
+  //   SpeechLocal("更换壁纸成功.mp3");
+  // };
 };
 </script>
 

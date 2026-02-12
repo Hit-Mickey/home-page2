@@ -17,7 +17,7 @@
 <script setup lang="js">
 import { mainStore } from "@/store";
 import { Error } from "@icon-park/vue-next";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 // import { initSnowfall, closeSnowfall } from "@/utils/season/snow";
 // import { initFirefly, closeFirefly } from "@/utils/season/firefly";
 // import { initLantern, closeLantern } from "@/utils/season/lantern";
@@ -157,12 +157,12 @@ const changeBg = async (type) => {
         } else {
           performTransition(newBgUrl);
         };
-        if (store.webSpeech) {
-          stopSpeech();
-          const voice = envConfig.VITE_TTS_Voice;
-          const vstyle = envConfig.VITE_TTS_Style;
-          SpeechLocal("壁纸加载失败.mp3");
-        };
+        // if (store.webSpeech) {
+        //   stopSpeech();
+        //   const voice = envConfig.VITE_TTS_Voice;
+        //   const vstyle = envConfig.VITE_TTS_Style;
+        //   SpeechLocal("壁纸加载失败.mp3");
+        // };
       };
     } finally {
       isLoading.value = false;
@@ -250,12 +250,12 @@ const imgLoadError = async () => {
   } else {
     currentBgUrl.value = `/images/background${bgRandom}.jpg`;
   };
-  if (store.webSpeech) {
-    stopSpeech();
-    const voice = envConfig.VITE_TTS_Voice;
-    const vstyle = envConfig.VITE_TTS_Style;
-    SpeechLocal("壁纸加载失败.mp3");
-  };
+  // if (store.webSpeech) {
+  //   stopSpeech();
+  //   const voice = envConfig.VITE_TTS_Voice;
+  //   const vstyle = envConfig.VITE_TTS_Style;
+  //   SpeechLocal("壁纸加载失败.mp3");
+  // };
 };
 
 // 监听壁纸切换

@@ -34,7 +34,7 @@ import { Icon } from "@vicons/utils";
 import { QuoteLeft, QuoteRight } from "@vicons/fa";
 import { Error } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 const store = mainStore();
 
 // 主页站点logo
@@ -43,7 +43,7 @@ const siteLogo = envConfig.VITE_SITE_MAIN_LOGO;
 const siteUrl = computed(() => {
   let mns: string | null = null;
   if (store.msgNameShow) {
-    mns = envConfig.VITE_SITE_MAIN_NAME  ||  envConfig.VITE_SITE_URL || "imsyy.top";
+    mns = envConfig.VITE_SITE_MAIN_NAME || envConfig.VITE_SITE_URL || "imsyy.top";
     // 这里并没有处理显示自定义内容后的分段点，因为这个点看着也不错，有种写字时封笔的感觉，就不处理啦~
     // 才不是懒的！（x）
   } else {
@@ -78,12 +78,12 @@ const changeBox = () => {
         fill: "#efefef",
       }),
     });
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("分辨率不足.mp3");
-    };
+    // if (store.webSpeech) {
+    //   stopSpeech();
+    //   const voice = envConfig.VITE_TTS_Voice;
+    //   const vstyle = envConfig.VITE_TTS_Style;
+    //   SpeechLocal("分辨率不足.mp3");
+    // };
   };
 };
 
@@ -94,12 +94,12 @@ watch(
     if (value) {
       descriptionText.hello = envConfig.VITE_DESC_HELLO_OTHER;
       descriptionText.text = envConfig.VITE_DESC_TEXT_OTHER;
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("惊讶.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("惊讶.mp3");
+      // };
     } else {
       descriptionText.hello = envConfig.VITE_DESC_HELLO;
       descriptionText.text = envConfig.VITE_DESC_TEXT;
@@ -116,7 +116,7 @@ watch(
     flex-direction: row;
     align-items: center;
     animation: fade 0.5s;
-    max-width: 460px;
+    max-width: 550px;
     color: rgba(245, 245, 245, 1);
 
     .logo-img {

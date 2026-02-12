@@ -1,6 +1,6 @@
 import { getTXAdcode, getTXWeather, getTXAdcodeS, getTXWeatherS, getGDAdcode, getGDAdcodeI, getGDWeather, getIPV4Addr, getIPV6Addr, getOtherWeather, getHXHWeather, getXMWeather, getIPV4AddrLocation } from "@/api";
 import { Error } from "@icon-park/vue-next";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 import xmAdcodeData from '@/assets/data/xiaomi_weather_adcode.json';
 import xmStatusData from '@/assets/data/xiaomi_weather_status.json';
 import { mainStore } from "@/store";
@@ -44,23 +44,23 @@ export async function getXMWT() {
     // 获取 IP
     const ipv4addr = await getIPV4Addr();
     if (ipv4addr.ip == null || !ipv4addr) {
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("位置信息获取失败.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("位置信息获取失败.mp3");
+        // };
         throw "天气信息获取失败";
     };
     // 获取位置信息
     const location = await getIPV4AddrLocation(ipv4addr.ip);
     if (String(location?.code) !== "0" || !location?.data.region || !location?.data.city) {
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("位置信息获取失败.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("位置信息获取失败.mp3");
+        // };
         throw "天气信息获取失败";
     };
     // 加载 Adcode
@@ -69,12 +69,12 @@ export async function getXMWT() {
         adcode: findCityAdcode(location.data.region, location.data.city, location.data.county),
     };
     if (weatherData.adCode.adcode == null) {
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("天气加载失败.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("天气加载失败.mp3");
+        // };
         throw "天气信息获取失败";
     };
     // 获取天气信息
@@ -94,12 +94,12 @@ export async function getXMWT() {
         };
         return weatherData;
     } catch (e) {
-        if (store.webSpeech) {
-            stopSpeech();
-            const voice = envConfig.VITE_TTS_Voice;
-            const vstyle = envConfig.VITE_TTS_Style;
-            SpeechLocal("天气加载失败.mp3");
-        };
+        // if (store.webSpeech) {
+        //     stopSpeech();
+        //     const voice = envConfig.VITE_TTS_Voice;
+        //     const vstyle = envConfig.VITE_TTS_Style;
+        //     SpeechLocal("天气加载失败.mp3");
+        // };
         throw "天气信息获取失败";
     };
 };

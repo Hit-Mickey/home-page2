@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import socialLinks from "@/assets/socialLinks.json";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 import { mainStore } from "@/store";
 
 const store = mainStore();
@@ -25,12 +25,12 @@ const togglesocial = () => {
     dangerouslyUseHTMLString: true,
     message: `哦？来扩列嘛？~`,
   });
-  if (store.webSpeech) {
-    stopSpeech();
-    const voice = envConfig.VITE_TTS_Voice;
-    const vstyle = envConfig.VITE_TTS_Style;
-    SpeechLocal("戳戳社.mp3");
-  };
+  // if (store.webSpeech) {
+  //   stopSpeech();
+  //   const voice = envConfig.VITE_TTS_Voice;
+  //   const vstyle = envConfig.VITE_TTS_Style;
+  //   SpeechLocal("戳戳社.mp3");
+  // };
 };
 </script>
 

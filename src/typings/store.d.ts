@@ -3,8 +3,8 @@ export interface MainState {
     innerWidth: number | null;
     coverType: number;
     sBGCount: string | null;
-    autoBGSwitchInterval : number;
-    seasonalEffects: boolean;
+    autoBGSwitchInterval: number;
+    // seasonalEffects: boolean;
     msgNameShow: boolean;
     siteStartShow: boolean;
     musicClick: boolean;
@@ -30,8 +30,8 @@ export interface MainState {
     playerAutoplay: boolean;
     playerLoop: "all" | "one" | "none";
     playerOrder: "list" | "random";
-    webSpeech: boolean;
-    playerSpeechName: boolean;
+    // webSpeech: boolean;
+    // playerSpeechName: boolean;
     playerTrLrc: boolean;
     playerDWRCShow: boolean;
     playerDWRCShowPro: boolean;
@@ -47,9 +47,9 @@ export interface MainState {
     dwrcLoading: boolean;
     lyricSeekVersion: number;
     forceShowBarIcon: boolean;
-    showFirefly: boolean;
-    showSnowfall: boolean;
-    showLantern: boolean;
+    // showFirefly: boolean;
+    // showSnowfall: boolean;
+    // showLantern: boolean;
     showProgressIcon: boolean;
     showProgressIconState: number;
     theme: "system" | "time" | "bg" | "light" | "dark";

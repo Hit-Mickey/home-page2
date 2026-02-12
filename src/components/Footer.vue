@@ -106,7 +106,7 @@
 
 <script setup lang="ts">
 import ProgressBar from "@/components/ProgressBar.vue";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 import { MusicOne } from "@icon-park/vue-next";
 import { Icon } from "@vicons/utils";
 import { Paw } from "@vicons/ionicons5";
@@ -159,21 +159,21 @@ const toggleForceIcon = () => {
     dangerouslyUseHTMLString: true,
     message: `${store.forceShowBarIcon ? '诶？' : '进度 ICON 常驻已禁用'}`,
   });
-  if (store.forceShowBarIcon) {
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("启用进度图标常驻.mp3");
-    };
-  } else {
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("禁用进度图标常驻.mp3");
-    };
-  };
+  // if (store.forceShowBarIcon) {
+  //   if (store.webSpeech) {
+  //     stopSpeech();
+  //     const voice = envConfig.VITE_TTS_Voice;
+  //     const vstyle = envConfig.VITE_TTS_Style;
+  //     SpeechLocal("启用进度图标常驻.mp3");
+  //   };
+  // } else {
+  //   if (store.webSpeech) {
+  //     stopSpeech();
+  //     const voice = envConfig.VITE_TTS_Voice;
+  //     const vstyle = envConfig.VITE_TTS_Style;
+  //     SpeechLocal("禁用进度图标常驻.mp3");
+  //   };
+  // };
 };
 
 // dwrc part

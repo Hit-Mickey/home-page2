@@ -24,7 +24,7 @@ import { getTXAdcode, getTXWeather, getTXAdcodeS, getTXWeatherS, getGDAdcode, ge
 import { getXMWT } from "@/utils/xiaomiWeather";
 import { Error } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 
 import type {
   AdCode,
@@ -75,12 +75,12 @@ const getTemperature = (min, max) => {
     return Math.round(average);
   } catch (error) {
     console.error("计算温度出现错误：", error);
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("天气信息无法计算.mp3");
-    };
+    // if (store.webSpeech) {
+    //   stopSpeech();
+    //   const voice = envConfig.VITE_TTS_Voice;
+    //   const vstyle = envConfig.VITE_TTS_Style;
+    //   SpeechLocal("天气信息无法计算.mp3");
+    // };
     return "NaN";
   }
 };
@@ -92,12 +92,12 @@ const getTXW = async () => {
     // 获取 Adcode
     const adCode = (await getTXAdcode(txkey)) as TXAdCodeResponse;
     if (String(adCode.status) !== "0") {
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("位置信息获取失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("位置信息获取失败.mp3");
+      // };
       throw "天气信息获取失败";
     };
     weatherData.adCode = {
@@ -106,32 +106,32 @@ const getTXW = async () => {
     };
     // 获取天气信息
     if (weatherData.adCode.adcode == null) {
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("天气加载失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("天气加载失败.mp3");
+      // };
       throw "天气信息获取失败";
     };
     const txWeather = (await getTXWeather(txkey, weatherData.adCode.adcode)) as TXWeatherResponse;
     if (String(txWeather.status) !== "0") {
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("天气加载失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("天气加载失败.mp3");
+      // };
       throw "天气信息获取失败";
     };
     const realtimeData = txWeather.result.realtime?.[0];
     if (!realtimeData?.infos) {
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("天气加载失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("天气加载失败.mp3");
+      // };
       throw "天气信息获取失败";
     };
     weatherData.weather = {
@@ -145,12 +145,12 @@ const getTXW = async () => {
     // 获取 Adcode
     const adCode = (await getTXAdcodeS(txkey, txskey)) as TXAdCodeResponse;
     if (String(adCode?.status) !== "0") {
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("位置信息获取失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("位置信息获取失败.mp3");
+      // };
       throw "天气信息获取失败";
     };
     weatherData.adCode = {
@@ -159,32 +159,32 @@ const getTXW = async () => {
     };
     // 获取天气信息
     if (weatherData.adCode.adcode == null) {
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("天气加载失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("天气加载失败.mp3");
+      // };
       throw "天气信息获取失败";
     };
     const txWeather = (await getTXWeatherS(txkey, weatherData.adCode.adcode, txskey)) as TXWeatherResponse;
     if (String(txWeather.status) !== "0") {
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("天气加载失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("天气加载失败.mp3");
+      // };
       throw "天气信息获取失败";
     };
     const realtimeData = txWeather.result.realtime?.[0];
     if (!realtimeData?.infos) {
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("天气加载失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("天气加载失败.mp3");
+      // };
       throw "天气信息获取失败";
     };
     weatherData.weather = {
@@ -205,12 +205,12 @@ const getGDW = async () => {
     const ipV4addr = await getIPV4Addr();
     adCodei = (await getGDAdcodeI(ipV4addr.ip, gdkey)) as GDAdcodeIResponse;
     if (String(adCodei?.infocode) !== "10000" || String(adCodei?.status) !== "1") {
-      if (store.webSpeech) {
-        stopSpeech();
-        const voice = envConfig.VITE_TTS_Voice;
-        const vstyle = envConfig.VITE_TTS_Style;
-        SpeechLocal("位置信息获取失败.mp3");
-      };
+      // if (store.webSpeech) {
+      //   stopSpeech();
+      //   const voice = envConfig.VITE_TTS_Voice;
+      //   const vstyle = envConfig.VITE_TTS_Style;
+      //   SpeechLocal("位置信息获取失败.mp3");
+      // };
       throw "天气信息获取失败";
     };
   };
@@ -227,22 +227,22 @@ const getGDW = async () => {
   };
   // 获取天气信息
   if (weatherData.adCode.adcode == null) {
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("天气加载失败.mp3");
-    };
+    // if (store.webSpeech) {
+    //   stopSpeech();
+    //   const voice = envConfig.VITE_TTS_Voice;
+    //   const vstyle = envConfig.VITE_TTS_Style;
+    //   SpeechLocal("天气加载失败.mp3");
+    // };
     throw "天气信息获取失败";
   };
   const result = (await getGDWeather(gdkey, weatherData.adCode.adcode)) as GDWeatherResponse;
   if (String(result?.status) !== "1" || String(result?.infocode) !== "10000") {
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("天气加载失败.mp3");
-    };
+    // if (store.webSpeech) {
+    //   stopSpeech();
+    //   const voice = envConfig.VITE_TTS_Voice;
+    //   const vstyle = envConfig.VITE_TTS_Style;
+    //   SpeechLocal("天气加载失败.mp3");
+    // };
     throw "天气信息获取失败";
   };
   weatherData.weather = {
@@ -271,12 +271,12 @@ const getOW = async () => {
 const getHXHW = async () => {
   const result = await getHXHWeather();
   if (String(result?.success) !== "true") {
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("天气加载失败.mp3");
-    };
+    // if (store.webSpeech) {
+    //   stopSpeech();
+    //   const voice = envConfig.VITE_TTS_Voice;
+    //   const vstyle = envConfig.VITE_TTS_Style;
+    //   SpeechLocal("天气加载失败.mp3");
+    // };
     throw "天气信息获取失败";
   };
   weatherData.adCode = {
@@ -358,12 +358,12 @@ const getWeatherData = async () => {
   } catch (error) {
     console.error("天气信息获取失败：" + error);
     onError("天气信息获取失败");
-    if (store.webSpeech) {
-      stopSpeech();
-      const voice = envConfig.VITE_TTS_Voice;
-      const vstyle = envConfig.VITE_TTS_Style;
-      SpeechLocal("天气加载失败.mp3");
-    };
+    // if (store.webSpeech) {
+    //   stopSpeech();
+    //   const voice = envConfig.VITE_TTS_Voice;
+    //   const vstyle = envConfig.VITE_TTS_Style;
+    //   SpeechLocal("天气加载失败.mp3");
+    // };
   };
 };
 

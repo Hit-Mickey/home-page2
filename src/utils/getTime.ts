@@ -1,6 +1,6 @@
 import { h } from "vue";
 import { SpaCandle } from "@icon-park/vue-next";
-import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
+// import { Speech, stopSpeech, SpeechLocal } from "@/utils/speech";
 import dayjs from "dayjs";
 
 // 时钟
@@ -74,7 +74,7 @@ export const helloInit = (store) => {
   const hour = new Date().getHours();
   let hello: string | null = null;
   let hellosound: string | null = null;
-  stopSpeech();
+  // stopSpeech();
   if (hour < 5) {
     hello = "凌晨好，该睡了啦！";
     hellosound = "欢迎1.mp3";
@@ -110,9 +110,9 @@ export const helloInit = (store) => {
     dangerouslyUseHTMLString: true,
     message: `<strong>${hello}</strong> 欢迎来到我的主页`,
   });
-  if (store.webSpeech) {
-    SpeechLocal(hellosound);
-  };
+  // if (store.webSpeech) {
+  //   SpeechLocal(hellosound);
+  // };
 };
 
 // 默哀模式
